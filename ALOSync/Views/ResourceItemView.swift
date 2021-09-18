@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ResourceItemView: View {
     
-    private let indentation = 16
+    private let indentation = 12
     private let timer = Timer.publish(every: 2, on: .main, in: .common).autoconnect()
     
     @Environment(\.managedObjectContext) private var viewContext
@@ -22,7 +22,16 @@ struct ResourceItemView: View {
     @State private var loading = false
     
     var body: some View {
-        HStack {
+        HStack(spacing: 4) {
+            Button(action: {
+
+            }) {
+                Image(systemName: "chevron.down")
+                    .foregroundColor(Color(.labelColor))
+                    .font(.system(size: 10, weight: .bold))
+            }
+            .buttonStyle(PlainButtonStyle())
+            .disabled(true)
             Image(systemName: resource.type.systemImage)
             Text(resource.name)
             Spacer()

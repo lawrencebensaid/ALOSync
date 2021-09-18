@@ -48,7 +48,7 @@ struct StatusView: View {
                             let tasks = orchestrator.tasks.sorted { $0.status.rawValue > $1.status.rawValue }
                             ForEach(tasks) { task in
                                 VStack(alignment: .leading, spacing: 0) {
-                                    Text(task.task)
+                                    Text(task.id)
                                         .font(.system(size: 14, weight: .bold))
                                         .foregroundColor(task.status.color)
                                     HStack(alignment: .bottom) {
@@ -57,9 +57,11 @@ struct StatusView: View {
                                                 .font(.system(size: 12))
                                         }
                                         Spacer()
-                                        Text("Started \(task.startedAt)")
-                                            .font(.system(size: 10))
-                                            .foregroundColor(Color(.systemGray))
+                                        if let date = task.startedAt {
+                                            Text("Started \(date, formatter: .relative())")
+                                                .font(.system(size: 10))
+                                                .foregroundColor(Color(.systemGray))
+                                        }
                                     }
                                     if let progress = task.progress {
                                         ProgressView(value: progress, total: 1)
@@ -77,9 +79,9 @@ struct StatusView: View {
                         .font(.title2)
                         .padding(.top)
                     if orchestrator.jobs.count > 0 {
-                        ForEach(orchestrator.jobs.sorted(by: { $0.name.compare($1.name) == .orderedAscending })) { job in
+                        ForEach(orchestrator.jobs.sorted(by: { $0.id.compare($1.id) == .orderedAscending })) { job in
                             VStack(alignment: .leading) {
-                                Text(job.name)
+                                Text(job.id)
                                     .bold()
                                 Text(job.message ?? "")
                                     .font(.system(size: 10))
@@ -107,7 +109,8 @@ struct StatusView: View {
     
     private func update(animate: Bool = false) {
         guard updating == false else { return }
-        let request = URLRequest(url: URL(string: UserDefaults.standard.string(forKey: "mirrorHost") ?? "")!)
+        guard let mirrorHost = UserDefaults.standard.string(forKey: "mirrorHost") else { return }
+        let request = URLRequest(url: URL(string: "\(mirrorHost)?dataOnly=1")!)
         updating = true
         URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {

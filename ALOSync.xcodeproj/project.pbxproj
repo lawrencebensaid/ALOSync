@@ -13,6 +13,7 @@
 		4D54D33226ECD04B00DC8743 /* ALOOrchestrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D54D33126ECD04B00DC8743 /* ALOOrchestrator.swift */; };
 		4D54D33426ECD34000DC8743 /* ALOStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D54D33326ECD34000DC8743 /* ALOStatus.swift */; };
 		4D54D33626ECE63000DC8743 /* ALOTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D54D33526ECE63000DC8743 /* ALOTask.swift */; };
+		4D93AE4126F63DA20012971E /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D93AE4026F63DA20012971E /* Formatter.swift */; };
 		4DA0978426EF7E5200665486 /* ResourceItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA0978326EF7E5200665486 /* ResourceItemView.swift */; };
 		4DA0978626EF8B1500665486 /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA0978526EF8B1500665486 /* Int.swift */; };
 		4DB1CB3F26E9043100DB4CFC /* CourseResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB1CB3E26E9043100DB4CFC /* CourseResource.swift */; };
@@ -59,6 +60,7 @@
 		4D54D33126ECD04B00DC8743 /* ALOOrchestrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALOOrchestrator.swift; sourceTree = "<group>"; };
 		4D54D33326ECD34000DC8743 /* ALOStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALOStatus.swift; sourceTree = "<group>"; };
 		4D54D33526ECE63000DC8743 /* ALOTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALOTask.swift; sourceTree = "<group>"; };
+		4D93AE4026F63DA20012971E /* Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
 		4DA0978326EF7E5200665486 /* ResourceItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceItemView.swift; sourceTree = "<group>"; };
 		4DA0978526EF8B1500665486 /* Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
 		4DB1CB3E26E9043100DB4CFC /* CourseResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseResource.swift; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 			children = (
 				4DF2AF0926E8D09300471857 /* NSImage.swift */,
 				4DA0978526EF8B1500665486 /* Int.swift */,
+				4D93AE4026F63DA20012971E /* Formatter.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -342,6 +345,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4D93AE4126F63DA20012971E /* Formatter.swift in Sources */,
 				4D0F760F26EFD4DE0054EAD9 /* CourseDetailView.swift in Sources */,
 				4DF2AEDF26E8A5BB00471857 /* Persistence.swift in Sources */,
 				4D54D33226ECD04B00DC8743 /* ALOOrchestrator.swift in Sources */,

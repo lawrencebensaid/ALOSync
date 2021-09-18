@@ -9,10 +9,10 @@ import SwiftUI
 
 struct ALOTask: Codable, Identifiable {
     
-    static var preview: ALOTask { ALOTask(task: "task.\(Int.random(in: 10...99))", status: .running, startedAt: "\(Int.random(in: 1..<60)) seconds ago", progress: .random(in: 0...1), message: "Testing...") }
+    static var preview: ALOTask { ALOTask(id: "task.\(Int.random(in: 10...99))", status: .running, startedAt: Date(), progress: .random(in: 0...1), message: "Testing...") }
     
     private enum CodingKeys: CodingKey {
-        case task
+        case id
         case status
         case startedAt
         case progress
@@ -39,15 +39,14 @@ struct ALOTask: Codable, Identifiable {
         }
     }
 
-    var id: String { task }
-    var task: String
+    var id: String
     var status: Status
-    var startedAt: String
+    var startedAt: Date?
     var progress: Float?
     var message: String?
     
-    private init(task: String, status: Status = .unknown, startedAt: String, progress: Float? = nil, message: String) {
-        self.task = task
+    private init(id: String, status: Status = .unknown, startedAt: Date, progress: Float? = nil, message: String) {
+        self.id = id
         self.status = status
         self.startedAt = startedAt
         self.progress = progress
@@ -56,27 +55,39 @@ struct ALOTask: Codable, Identifiable {
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.task = try container.decode(String.self, forKey: .task)
+        self.id = try container.decode(String.self, forKey: .id)
         if let status = try? container.decodeIfPresent(String.self, forKey: .status) {
             self.status = Status(rawValue: status) ?? .unknown
         } else {
             self.status = .unknown
         }
-        self.startedAt = try container.decode(String.self, forKey: .startedAt)
-        if let progress = try? container.decodeIfPresent(String.self, forKey: .progress) {
-            let str = String(progress.dropLast())
-            self.progress = (str as NSString).floatValue / 100
-        }
+        let startedAt = try? container.decodeIfPresent(Double.self, forKey: .startedAt)
+        self.startedAt = startedAt != nil ? Date(timeIntervalSince1970: startedAt! / 1000) : nil
+        self.progress = try? container.decodeIfPresent(Float.self, forKey: .progress)
         self.message = try? container.decodeIfPresent(String.self, forKey: .message)
     }
     
 }
 
 
-struct ALOJob: Identifiable, Equatable {
+struct ALOJob: Codable, Identifiable {
 
-    var id: String { name }
-    var name: String
+    var id: String
+    var ranAt: Date?
     var message: String?
+    
+    private enum CodingKeys: CodingKey {
+        case id
+        case ranAt
+        case message
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try container.decode(String.self, forKey: .id)
+        let ranAt = try? container.decodeIfPresent(Double.self, forKey: .ranAt)
+        self.ranAt = ranAt != nil ? Date(timeIntervalSince1970: ranAt! / 1000) : nil
+        self.message = try? container.decodeIfPresent(String.self, forKey: .message)
+    }
     
 }

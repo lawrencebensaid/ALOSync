@@ -30,30 +30,32 @@ class AppContext: ObservableObject {
         var request = URLRequest(url: URL(string: "\(host)/my/course")!)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                complete?(.failure(APIError("Something went wrong")))
-                print(error.localizedDescription)
-                return
-            }
-            guard let data = data else { return }
-            guard let status = (response as? HTTPURLResponse)?.statusCode else { return }
-            if status != 200 {
-                print(status)
-                let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-                complete?(.failure(APIError(json?["message"] as? String ?? "Something went wrong")))
-                return
-            }
-            let decoder = JSONDecoder()
-            decoder.userInfo[.context] = context
-            withAnimation {
-                let results = (try? context.fetch(Course.fetchRequest())) ?? []
-                for result in results { context.delete(result) }
-                if let courses = try? decoder.decode([Course].self, from: data) {
-                    try? context.save()
-                    complete?(.success(courses))
+            DispatchQueue.main.async {
+                if let error = error {
+                    complete?(.failure(APIError("Something went wrong")))
+                    print(error.localizedDescription)
                     return
                 }
-                complete?(.failure(APIError("Something went wrong")))
+                guard let data = data else { return }
+                guard let status = (response as? HTTPURLResponse)?.statusCode else { return }
+                if status != 200 {
+                    print(status)
+                    let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+                    complete?(.failure(APIError(json?["message"] as? String ?? "Something went wrong")))
+                    return
+                }
+                let decoder = JSONDecoder()
+                decoder.userInfo[.context] = context
+                withAnimation {
+                    let results = (try? context.fetch(Course.fetchRequest())) ?? []
+                    for result in results { context.delete(result) }
+                    if let courses = try? decoder.decode([Course].self, from: data) {
+                        try? context.save()
+                        complete?(.success(courses))
+                        return
+                    }
+                    complete?(.failure(APIError("Something went wrong")))
+                }
             }
         }.resume()
     }

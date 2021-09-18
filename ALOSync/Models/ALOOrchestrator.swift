@@ -54,11 +54,7 @@ struct ALOOrchestrator: Decodable {
             self.status = .unknown
         }
         self.message = try container.decode(String.self, forKey: .message)
-        if let jobs = try? container.decodeIfPresent([String: String].self, forKey: .jobs) {
-            self.jobs = jobs.keys.map({ ALOJob(name: $0, message: jobs[$0]) })
-        } else {
-            self.jobs = []
-        }
+        self.jobs = try container.decode([ALOJob].self, forKey: .jobs)
         self.tasks = try container.decode([ALOTask].self, forKey: .tasks)
     }
     

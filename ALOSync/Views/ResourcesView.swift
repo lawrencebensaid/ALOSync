@@ -41,19 +41,19 @@ struct ResourcesView: View {
                                 .frame(height: 30)
                                 .help(resource.getPath(withSync: showFullPathInTooltip))
                         }
-                        .width(ideal: 250)
+                        .width(min: 150, ideal: 500)
                         TableColumn("Size") {
                             if let size = $0.size {
                                 Text("\(size.bytesString())")
                                     .foregroundColor(Color(.secondaryLabelColor))
                             }
                         }
-                        .width(ideal: 80)
+                        .width(min: 35)
                         TableColumn("Kind") {
                             Text($0.subtype?.label ?? $0.type.rawValue.capitalized)
                                 .foregroundColor(Color(.secondaryLabelColor))
                         }
-                        .width(ideal: 40)
+                        .width(min: 45)
                     } rows: {
                         ForEach(courses.filter { filterCourses ? $0.fileCount > 0 : true }, id: \.id) { course in
                             TableRow(CourseResource(name: course.name, type: .course, course: course, depth: 0))
@@ -118,7 +118,7 @@ struct ResourcesView: View {
             Toggle(isOn: .init { filterCourses } set: { x in withAnimation { filterCourses = x } }) {
                 Image(systemName: "graduationcap")
             }
-            .help("Only show courses containing files")
+            .help("Only show courses containing files/resources")
         }
         .onAppear {
             loading = true
