@@ -1,0 +1,732 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4D0F760B26EFBC200054EAD9 /* AppContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D0F760A26EFBC200054EAD9 /* AppContext.swift */; };
+		4D0F760F26EFD4DE0054EAD9 /* CourseDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D0F760E26EFD4DE0054EAD9 /* CourseDetailView.swift */; };
+		4D54D33026ECCFBF00DC8743 /* StatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D54D32F26ECCFBF00DC8743 /* StatusView.swift */; };
+		4D54D33226ECD04B00DC8743 /* ALOOrchestrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D54D33126ECD04B00DC8743 /* ALOOrchestrator.swift */; };
+		4D54D33426ECD34000DC8743 /* ALOStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D54D33326ECD34000DC8743 /* ALOStatus.swift */; };
+		4D54D33626ECE63000DC8743 /* ALOTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D54D33526ECE63000DC8743 /* ALOTask.swift */; };
+		4DA0978426EF7E5200665486 /* ResourceItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA0978326EF7E5200665486 /* ResourceItemView.swift */; };
+		4DA0978626EF8B1500665486 /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA0978526EF8B1500665486 /* Int.swift */; };
+		4DB1CB3F26E9043100DB4CFC /* CourseResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB1CB3E26E9043100DB4CFC /* CourseResource.swift */; };
+		4DB1CB4226E90E6100DB4CFC /* ControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB1CB4126E90E6100DB4CFC /* ControlView.swift */; };
+		4DC6DC5C26EF63CC00637572 /* CourseThumbnailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC6DC5B26EF63CC00637572 /* CourseThumbnailView.swift */; };
+		4DDE040526F5D4B9008A9940 /* AppSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDE040426F5D4B9008A9940 /* AppSettingsView.swift */; };
+		4DDE040726F60832008A9940 /* Grade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDE040626F60832008A9940 /* Grade.swift */; };
+		4DF2AED626E8A5B900471857 /* ALOSyncApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF2AED526E8A5B900471857 /* ALOSyncApp.swift */; };
+		4DF2AED826E8A5B900471857 /* ResourcesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF2AED726E8A5B900471857 /* ResourcesView.swift */; };
+		4DF2AEDA26E8A5BB00471857 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4DF2AED926E8A5BB00471857 /* Assets.xcassets */; };
+		4DF2AEDD26E8A5BB00471857 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4DF2AEDC26E8A5BB00471857 /* Preview Assets.xcassets */; };
+		4DF2AEDF26E8A5BB00471857 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF2AEDE26E8A5BB00471857 /* Persistence.swift */; };
+		4DF2AEE226E8A5BB00471857 /* ALOSync.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4DF2AEE026E8A5BB00471857 /* ALOSync.xcdatamodeld */; };
+		4DF2AEEC26E8A5BC00471857 /* ALOSyncTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF2AEEB26E8A5BC00471857 /* ALOSyncTests.swift */; };
+		4DF2AEF626E8A5BC00471857 /* ALOSyncUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF2AEF526E8A5BC00471857 /* ALOSyncUITests.swift */; };
+		4DF2AEF826E8A5BC00471857 /* ALOSyncUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF2AEF726E8A5BC00471857 /* ALOSyncUITestsLaunchTests.swift */; };
+		4DF2AF0526E8A65500471857 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF2AF0426E8A65500471857 /* LoginView.swift */; };
+		4DF2AF0A26E8D09300471857 /* NSImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF2AF0926E8D09300471857 /* NSImage.swift */; };
+		4DF2AF0E26E8D4A800471857 /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF2AF0C26E8D4A800471857 /* Course.swift */; };
+		4DF2AF1126E8E9E300471857 /* CodingUserInfoKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF2AF1026E8E9E300471857 /* CodingUserInfoKey.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		4DF2AEE826E8A5BB00471857 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4DF2AECA26E8A5B900471857 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4DF2AED126E8A5B900471857;
+			remoteInfo = ALOSync;
+		};
+		4DF2AEF226E8A5BC00471857 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4DF2AECA26E8A5B900471857 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4DF2AED126E8A5B900471857;
+			remoteInfo = ALOSync;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		4D0F760A26EFBC200054EAD9 /* AppContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppContext.swift; sourceTree = "<group>"; };
+		4D0F760E26EFD4DE0054EAD9 /* CourseDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDetailView.swift; sourceTree = "<group>"; };
+		4D54D32F26ECCFBF00DC8743 /* StatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusView.swift; sourceTree = "<group>"; };
+		4D54D33126ECD04B00DC8743 /* ALOOrchestrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALOOrchestrator.swift; sourceTree = "<group>"; };
+		4D54D33326ECD34000DC8743 /* ALOStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALOStatus.swift; sourceTree = "<group>"; };
+		4D54D33526ECE63000DC8743 /* ALOTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALOTask.swift; sourceTree = "<group>"; };
+		4DA0978326EF7E5200665486 /* ResourceItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceItemView.swift; sourceTree = "<group>"; };
+		4DA0978526EF8B1500665486 /* Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
+		4DB1CB3E26E9043100DB4CFC /* CourseResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseResource.swift; sourceTree = "<group>"; };
+		4DB1CB4126E90E6100DB4CFC /* ControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlView.swift; sourceTree = "<group>"; };
+		4DC6DC5B26EF63CC00637572 /* CourseThumbnailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseThumbnailView.swift; sourceTree = "<group>"; };
+		4DDE040426F5D4B9008A9940 /* AppSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsView.swift; sourceTree = "<group>"; };
+		4DDE040626F60832008A9940 /* Grade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grade.swift; sourceTree = "<group>"; };
+		4DF2AED226E8A5B900471857 /* ALOSync.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ALOSync.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4DF2AED526E8A5B900471857 /* ALOSyncApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALOSyncApp.swift; sourceTree = "<group>"; };
+		4DF2AED726E8A5B900471857 /* ResourcesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourcesView.swift; sourceTree = "<group>"; };
+		4DF2AED926E8A5BB00471857 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4DF2AEDC26E8A5BB00471857 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		4DF2AEDE26E8A5BB00471857 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
+		4DF2AEE126E8A5BB00471857 /* ALOSync.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ALOSync.xcdatamodel; sourceTree = "<group>"; };
+		4DF2AEE726E8A5BB00471857 /* ALOSyncTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ALOSyncTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4DF2AEEB26E8A5BC00471857 /* ALOSyncTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALOSyncTests.swift; sourceTree = "<group>"; };
+		4DF2AEF126E8A5BC00471857 /* ALOSyncUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ALOSyncUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4DF2AEF526E8A5BC00471857 /* ALOSyncUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALOSyncUITests.swift; sourceTree = "<group>"; };
+		4DF2AEF726E8A5BC00471857 /* ALOSyncUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALOSyncUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		4DF2AF0426E8A65500471857 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		4DF2AF0626E8A87B00471857 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		4DF2AF0726E8A8C700471857 /* ALOSync.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ALOSync.entitlements; sourceTree = "<group>"; };
+		4DF2AF0926E8D09300471857 /* NSImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSImage.swift; sourceTree = "<group>"; };
+		4DF2AF0C26E8D4A800471857 /* Course.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
+		4DF2AF1026E8E9E300471857 /* CodingUserInfoKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodingUserInfoKey.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4DF2AECF26E8A5B900471857 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4DF2AEE426E8A5BB00471857 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4DF2AEEE26E8A5BC00471857 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4DB1CB4026E90E4600DB4CFC /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				4DF2AF0426E8A65500471857 /* LoginView.swift */,
+				4DF2AED726E8A5B900471857 /* ResourcesView.swift */,
+				4DB1CB4126E90E6100DB4CFC /* ControlView.swift */,
+				4D54D32F26ECCFBF00DC8743 /* StatusView.swift */,
+				4DC6DC5B26EF63CC00637572 /* CourseThumbnailView.swift */,
+				4DA0978326EF7E5200665486 /* ResourceItemView.swift */,
+				4D0F760E26EFD4DE0054EAD9 /* CourseDetailView.swift */,
+				4DDE040426F5D4B9008A9940 /* AppSettingsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		4DF2AEC926E8A5B900471857 = {
+			isa = PBXGroup;
+			children = (
+				4DF2AED426E8A5B900471857 /* ALOSync */,
+				4DF2AEEA26E8A5BC00471857 /* ALOSyncTests */,
+				4DF2AEF426E8A5BC00471857 /* ALOSyncUITests */,
+				4DF2AED326E8A5B900471857 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		4DF2AED326E8A5B900471857 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4DF2AED226E8A5B900471857 /* ALOSync.app */,
+				4DF2AEE726E8A5BB00471857 /* ALOSyncTests.xctest */,
+				4DF2AEF126E8A5BC00471857 /* ALOSyncUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4DF2AED426E8A5B900471857 /* ALOSync */ = {
+			isa = PBXGroup;
+			children = (
+				4DF2AF0826E8D07000471857 /* Extensions */,
+				4DF2AF0B26E8D0A800471857 /* Models */,
+				4DB1CB4026E90E4600DB4CFC /* Views */,
+				4DF2AED526E8A5B900471857 /* ALOSyncApp.swift */,
+				4D0F760A26EFBC200054EAD9 /* AppContext.swift */,
+				4DF2AEDE26E8A5BB00471857 /* Persistence.swift */,
+				4DF2AED926E8A5BB00471857 /* Assets.xcassets */,
+				4DF2AF0626E8A87B00471857 /* Info.plist */,
+				4DF2AF0726E8A8C700471857 /* ALOSync.entitlements */,
+				4DF2AEE026E8A5BB00471857 /* ALOSync.xcdatamodeld */,
+				4DF2AEDB26E8A5BB00471857 /* Preview Content */,
+			);
+			path = ALOSync;
+			sourceTree = "<group>";
+		};
+		4DF2AEDB26E8A5BB00471857 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				4DF2AEDC26E8A5BB00471857 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		4DF2AEEA26E8A5BC00471857 /* ALOSyncTests */ = {
+			isa = PBXGroup;
+			children = (
+				4DF2AEEB26E8A5BC00471857 /* ALOSyncTests.swift */,
+			);
+			path = ALOSyncTests;
+			sourceTree = "<group>";
+		};
+		4DF2AEF426E8A5BC00471857 /* ALOSyncUITests */ = {
+			isa = PBXGroup;
+			children = (
+				4DF2AEF526E8A5BC00471857 /* ALOSyncUITests.swift */,
+				4DF2AEF726E8A5BC00471857 /* ALOSyncUITestsLaunchTests.swift */,
+			);
+			path = ALOSyncUITests;
+			sourceTree = "<group>";
+		};
+		4DF2AF0826E8D07000471857 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				4DF2AF0926E8D09300471857 /* NSImage.swift */,
+				4DA0978526EF8B1500665486 /* Int.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		4DF2AF0B26E8D0A800471857 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				4DDE040626F60832008A9940 /* Grade.swift */,
+				4DF2AF0C26E8D4A800471857 /* Course.swift */,
+				4DB1CB3E26E9043100DB4CFC /* CourseResource.swift */,
+				4DF2AF1026E8E9E300471857 /* CodingUserInfoKey.swift */,
+				4D54D33126ECD04B00DC8743 /* ALOOrchestrator.swift */,
+				4D54D33326ECD34000DC8743 /* ALOStatus.swift */,
+				4D54D33526ECE63000DC8743 /* ALOTask.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4DF2AED126E8A5B900471857 /* ALOSync */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4DF2AEFB26E8A5BC00471857 /* Build configuration list for PBXNativeTarget "ALOSync" */;
+			buildPhases = (
+				4DF2AECE26E8A5B900471857 /* Sources */,
+				4DF2AECF26E8A5B900471857 /* Frameworks */,
+				4DF2AED026E8A5B900471857 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ALOSync;
+			productName = ALOSync;
+			productReference = 4DF2AED226E8A5B900471857 /* ALOSync.app */;
+			productType = "com.apple.product-type.application";
+		};
+		4DF2AEE626E8A5BB00471857 /* ALOSyncTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4DF2AEFE26E8A5BC00471857 /* Build configuration list for PBXNativeTarget "ALOSyncTests" */;
+			buildPhases = (
+				4DF2AEE326E8A5BB00471857 /* Sources */,
+				4DF2AEE426E8A5BB00471857 /* Frameworks */,
+				4DF2AEE526E8A5BB00471857 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4DF2AEE926E8A5BB00471857 /* PBXTargetDependency */,
+			);
+			name = ALOSyncTests;
+			productName = ALOSyncTests;
+			productReference = 4DF2AEE726E8A5BB00471857 /* ALOSyncTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		4DF2AEF026E8A5BC00471857 /* ALOSyncUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4DF2AF0126E8A5BC00471857 /* Build configuration list for PBXNativeTarget "ALOSyncUITests" */;
+			buildPhases = (
+				4DF2AEED26E8A5BC00471857 /* Sources */,
+				4DF2AEEE26E8A5BC00471857 /* Frameworks */,
+				4DF2AEEF26E8A5BC00471857 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4DF2AEF326E8A5BC00471857 /* PBXTargetDependency */,
+			);
+			name = ALOSyncUITests;
+			productName = ALOSyncUITests;
+			productReference = 4DF2AEF126E8A5BC00471857 /* ALOSyncUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4DF2AECA26E8A5B900471857 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1300;
+				LastUpgradeCheck = 1300;
+				TargetAttributes = {
+					4DF2AED126E8A5B900471857 = {
+						CreatedOnToolsVersion = 13.0;
+					};
+					4DF2AEE626E8A5BB00471857 = {
+						CreatedOnToolsVersion = 13.0;
+						TestTargetID = 4DF2AED126E8A5B900471857;
+					};
+					4DF2AEF026E8A5BC00471857 = {
+						CreatedOnToolsVersion = 13.0;
+						TestTargetID = 4DF2AED126E8A5B900471857;
+					};
+				};
+			};
+			buildConfigurationList = 4DF2AECD26E8A5B900471857 /* Build configuration list for PBXProject "ALOSync" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 4DF2AEC926E8A5B900471857;
+			productRefGroup = 4DF2AED326E8A5B900471857 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4DF2AED126E8A5B900471857 /* ALOSync */,
+				4DF2AEE626E8A5BB00471857 /* ALOSyncTests */,
+				4DF2AEF026E8A5BC00471857 /* ALOSyncUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4DF2AED026E8A5B900471857 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4DF2AEDD26E8A5BB00471857 /* Preview Assets.xcassets in Resources */,
+				4DF2AEDA26E8A5BB00471857 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4DF2AEE526E8A5BB00471857 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4DF2AEEF26E8A5BC00471857 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4DF2AECE26E8A5B900471857 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4D0F760F26EFD4DE0054EAD9 /* CourseDetailView.swift in Sources */,
+				4DF2AEDF26E8A5BB00471857 /* Persistence.swift in Sources */,
+				4D54D33226ECD04B00DC8743 /* ALOOrchestrator.swift in Sources */,
+				4DB1CB3F26E9043100DB4CFC /* CourseResource.swift in Sources */,
+				4DA0978426EF7E5200665486 /* ResourceItemView.swift in Sources */,
+				4D54D33026ECCFBF00DC8743 /* StatusView.swift in Sources */,
+				4DF2AF0E26E8D4A800471857 /* Course.swift in Sources */,
+				4D54D33626ECE63000DC8743 /* ALOTask.swift in Sources */,
+				4D0F760B26EFBC200054EAD9 /* AppContext.swift in Sources */,
+				4DF2AF1126E8E9E300471857 /* CodingUserInfoKey.swift in Sources */,
+				4DB1CB4226E90E6100DB4CFC /* ControlView.swift in Sources */,
+				4DDE040726F60832008A9940 /* Grade.swift in Sources */,
+				4DF2AEE226E8A5BB00471857 /* ALOSync.xcdatamodeld in Sources */,
+				4DF2AED826E8A5B900471857 /* ResourcesView.swift in Sources */,
+				4DF2AF0526E8A65500471857 /* LoginView.swift in Sources */,
+				4DC6DC5C26EF63CC00637572 /* CourseThumbnailView.swift in Sources */,
+				4DF2AF0A26E8D09300471857 /* NSImage.swift in Sources */,
+				4DDE040526F5D4B9008A9940 /* AppSettingsView.swift in Sources */,
+				4DA0978626EF8B1500665486 /* Int.swift in Sources */,
+				4DF2AED626E8A5B900471857 /* ALOSyncApp.swift in Sources */,
+				4D54D33426ECD34000DC8743 /* ALOStatus.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4DF2AEE326E8A5BB00471857 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4DF2AEEC26E8A5BC00471857 /* ALOSyncTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4DF2AEED26E8A5BC00471857 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4DF2AEF826E8A5BC00471857 /* ALOSyncUITestsLaunchTests.swift in Sources */,
+				4DF2AEF626E8A5BC00471857 /* ALOSyncUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		4DF2AEE926E8A5BB00471857 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4DF2AED126E8A5B900471857 /* ALOSync */;
+			targetProxy = 4DF2AEE826E8A5BB00471857 /* PBXContainerItemProxy */;
+		};
+		4DF2AEF326E8A5BC00471857 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4DF2AED126E8A5B900471857 /* ALOSync */;
+			targetProxy = 4DF2AEF226E8A5BC00471857 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		4DF2AEF926E8A5BC00471857 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		4DF2AEFA26E8A5BC00471857 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		4DF2AEFC26E8A5BC00471857 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ALOSync/ALOSync.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"ALOSync/Preview Content\"";
+				DEVELOPMENT_TEAM = 8L633NHUVC;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ALOSync/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lawrencebensaid.ALOSync;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		4DF2AEFD26E8A5BC00471857 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ALOSync/ALOSync.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"ALOSync/Preview Content\"";
+				DEVELOPMENT_TEAM = 8L633NHUVC;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ALOSync/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lawrencebensaid.ALOSync;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		4DF2AEFF26E8A5BC00471857 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8L633NHUVC;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lawrencebensaid.ALOSyncTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ALOSync.app/Contents/MacOS/ALOSync";
+			};
+			name = Debug;
+		};
+		4DF2AF0026E8A5BC00471857 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8L633NHUVC;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lawrencebensaid.ALOSyncTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ALOSync.app/Contents/MacOS/ALOSync";
+			};
+			name = Release;
+		};
+		4DF2AF0226E8A5BC00471857 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8L633NHUVC;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lawrencebensaid.ALOSyncUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = ALOSync;
+			};
+			name = Debug;
+		};
+		4DF2AF0326E8A5BC00471857 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8L633NHUVC;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lawrencebensaid.ALOSyncUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = ALOSync;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4DF2AECD26E8A5B900471857 /* Build configuration list for PBXProject "ALOSync" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4DF2AEF926E8A5BC00471857 /* Debug */,
+				4DF2AEFA26E8A5BC00471857 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4DF2AEFB26E8A5BC00471857 /* Build configuration list for PBXNativeTarget "ALOSync" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4DF2AEFC26E8A5BC00471857 /* Debug */,
+				4DF2AEFD26E8A5BC00471857 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4DF2AEFE26E8A5BC00471857 /* Build configuration list for PBXNativeTarget "ALOSyncTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4DF2AEFF26E8A5BC00471857 /* Debug */,
+				4DF2AF0026E8A5BC00471857 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4DF2AF0126E8A5BC00471857 /* Build configuration list for PBXNativeTarget "ALOSyncUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4DF2AF0226E8A5BC00471857 /* Debug */,
+				4DF2AF0326E8A5BC00471857 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		4DF2AEE026E8A5BB00471857 /* ALOSync.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				4DF2AEE126E8A5BB00471857 /* ALOSync.xcdatamodel */,
+			);
+			currentVersion = 4DF2AEE126E8A5BB00471857 /* ALOSync.xcdatamodel */;
+			path = ALOSync.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 4DF2AECA26E8A5B900471857 /* Project object */;
+}
