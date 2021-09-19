@@ -47,7 +47,7 @@ struct ALOSyncApp: App {
                                 // appContext.presentMirror.toggle() // Temprarily disabled
                                 presentMirror.toggle()
                             }) {
-                                Image(systemName: "slider.horizontal.below.rectangle")
+                                Image(systemName: "externaldrive.connected.to.line.below")
                             }
                             .help("Show mirror server status")
                             .keyboardShortcut("s", modifiers: [.control, .option])
@@ -70,7 +70,8 @@ struct ALOSyncApp: App {
             }
         }
         .commands {
-            let resource = appContext.resource
+            let courses: [Course]? = (try? viewContext.fetch(Course.fetchRequest())).flatMap({ $0 })
+            let resource = courses?.flatMap({ $0.files }).filter({ $0.id == appContext.resourceSelection }).first
             CommandGroup(after: .newItem) {
                 Button("Show in Finder") {
                     resource?.openDirectory()

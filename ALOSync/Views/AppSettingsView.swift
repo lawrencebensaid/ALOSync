@@ -20,6 +20,7 @@ struct AppSettingsView: View {
     @AppStorage("showFullPathInTooltip") private var showFullPathInTooltip = false
     @AppStorage("token") private var token: String?
     @AppStorage("developerMode") private var developerMode = false
+    @AppStorage("includeUncommonResources") private var includeUncommonResources = false
     
     @State private var presentForget = false
     @State private var presentErase = false
@@ -29,6 +30,8 @@ struct AppSettingsView: View {
         TabView(selection: $tab) {
             Form {
                 Section {
+                    Toggle("Include uncommon resources", isOn: $includeUncommonResources)
+                        .help("If enabled, includes form, webpage and other resource types in resources overview")
                     Toggle("Show full path in Tooltips", isOn: $showFullPathInTooltip)
                         .help("If enabled, displays the full path when hovering over a resource")
                 } header: {
@@ -41,7 +44,12 @@ struct AppSettingsView: View {
                             .foregroundColor(syncPath == nil ? Color(.systemRed) : Color(.systemGray))
                             .font(.caption)
                         Button(action: {
-                            NSWorkspace.shared.open(URL(fileURLWithPath: "file:\(syncPath ?? "")"))
+                            let url = URL(fileURLWithPath: "file:\(syncPath ?? "")")
+                            let result = NSWorkspace.shared.open(url)
+                            if !result {
+                                let _ = appContext.picker()
+                                NSWorkspace.shared.open(url)
+                            }
                         }) {
                             Image(systemName: "arrow.right.circle.fill")
                                 .foregroundColor(Color(.systemGray))
@@ -51,9 +59,7 @@ struct AppSettingsView: View {
                         .disabled(syncPath == nil)
                         .help("Reveal in finder")
                         Spacer()
-                        Button("Choose...") {
-                            let _ = appContext.picker()
-                        }
+                        Button("Choose...") { let _ = appContext.picker() }
                         .controlSize(.small)
                         .help("Pick a location where your files will be synced to")
                     }

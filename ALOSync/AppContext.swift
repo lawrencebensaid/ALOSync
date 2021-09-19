@@ -11,10 +11,10 @@ import SwiftUI
 
 class AppContext: ObservableObject {
     
+    @Published public var updating = false
     @Published public var showLogin = false
     @Published public var errorMessage: String?
     @Published public var resourceSelection: String?
-    @Published public var resource: CourseResource?
     
     // Developer mode
     @Published public var presentMirror = false // Causes memory leak, maybe a SwiftUI bug?
@@ -32,8 +32,10 @@ class AppContext: ObservableObject {
         guard let token = UserDefaults.standard.string(forKey: "token") else { return }
         var request = URLRequest(url: URL(string: "\(ALO.standard.base)/my/course")!)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        updating = true
         URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
+                self.updating = false
                 if let error = error {
                     complete?(.failure(APIError("Something went wrong")))
                     print(error.localizedDescription)

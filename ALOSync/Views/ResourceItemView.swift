@@ -23,15 +23,21 @@ struct ResourceItemView: View {
     
     var body: some View {
         HStack(spacing: 4) {
-            Button(action: {
-
-            }) {
-                Image(systemName: "chevron.down")
-                    .foregroundColor(Color(.labelColor))
-                    .font(.system(size: 10, weight: .bold))
+            if resource.type == .course || resource.type == .folder {
+                Button(action: {
+                    
+                }) {
+                    Image(systemName: "chevron.down")
+                        .foregroundColor(Color(.labelColor))
+                        .font(.system(size: 10, weight: .bold))
+                }
+                .buttonStyle(PlainButtonStyle())
+                .disabled(true)
+                .frame(width: 12)
+            } else {
+                Spacer()
+                    .frame(width: 12)
             }
-            .buttonStyle(PlainButtonStyle())
-            .disabled(true)
             Image(systemName: resource.type.systemImage)
                 .foregroundColor(.accentColor)
             Text(resource.name)
@@ -39,16 +45,8 @@ struct ResourceItemView: View {
             if loading {
                 ProgressView()
                     .controlSize(.small)
-            } else if let course = resource.course, resource.type == .course, course.canUpdate == true {
-                Button(action: {
-                    course.update(viewContext)
-                }) {
-                    Image(systemName: "arrow.clockwise.circle")
-                }
-                .buttonStyle(PlainButtonStyle())
-                .foregroundColor(Color(.secondaryLabelColor))
             } else if synced {
-                Image(systemName: "checkmark.circle")
+                Image(systemName: "circle.fill")
                     .foregroundColor(Color(.secondaryLabelColor))
             } else if resource.fid != nil && !resource.isSynced(at: syncPath) {
                 Button(action: {
@@ -61,7 +59,7 @@ struct ResourceItemView: View {
                         }
                     }
                 }) {
-                    Image(systemName: "arrow.triangle.2.circlepath")
+                    Image(systemName: "arrow.down.circle")
                 }
                 .buttonStyle(PlainButtonStyle())
                 .foregroundColor(Color(.secondaryLabelColor))
@@ -84,26 +82,32 @@ struct ResourceItemView: View {
                 resource.open()
             }
             Divider()
-            Button("Download now") {
-                loading = true
-                resource.sync { result in
-                    if appContext.fsPermissionsHandler(result, { resource.sync() }) { return }
-                    switch result {
-                    case .failure(let error): appContext.errorMessage = error.localizedDescription
-                    default: break
+            if let course = resource.course, resource.type == .course, course.canUpdate == true {
+                Button("Submit reindexing request") {
+                    course.update(viewContext)
+                }
+            } else {
+                Button("Download now") {
+                    loading = true
+                    resource.sync { result in
+                        if appContext.fsPermissionsHandler(result, { resource.sync() }) { return }
+                        switch result {
+                        case .failure(let error): appContext.errorMessage = error.localizedDescription
+                        default: break
+                        }
                     }
                 }
-            }
-            .disabled(synced)
-            Button("Remove download") {
-                resource.offload { result in
-                    switch result {
-                    case .failure(let error): appContext.errorMessage = error.localizedDescription
-                    default: break
+                .disabled(synced)
+                Button("Remove download") {
+                    resource.offload { result in
+                        switch result {
+                        case .failure(let error): appContext.errorMessage = error.localizedDescription
+                        default: break
+                        }
                     }
                 }
+                .disabled(!synced)
             }
-            .disabled(!synced)
         }
     }
     

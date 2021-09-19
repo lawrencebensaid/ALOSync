@@ -10,7 +10,8 @@ import CoreData
 
 struct ResourcesView: View {
     
-    private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+//    private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    private let commonResourceTypes: [CourseResource.`Type`] = [.folder, .file, .resource]
     
     @Environment(\.managedObjectContext) private var context
     @EnvironmentObject private var appContext: AppContext
@@ -18,20 +19,24 @@ struct ResourcesView: View {
     @AppStorage("token") private var token: String?
     @AppStorage("syncPath") private var syncPath: String?
     @AppStorage("showMirror") private var showMirror = false
+    @AppStorage("includeUncommonResources") private var includeUncommonResources = false
     @AppStorage("showFullPathInTooltip") private var showFullPathInTooltip = false
     
     @State private var isUpdated = false
     @State private var presentStatus = false
-    @State private var loading = false
     @State private var filterCourses = true
     @State private var search = ""
+    @State private var query = ""
     
     private var rotation: CGFloat = 0
     
-    @FetchRequest(entity: Course.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Course.code, ascending: true)]) var courses: FetchedResults<Course>
+    @FetchRequest(
+        entity: Course.entity(),
+        sortDescriptors: [NSSortDescriptor(keyPath: \Course.code, ascending: true)]
+    ) var courses: FetchedResults<Course>
     
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             if courses.count > 0 {
                 Table(selection: $appContext.resourceSelection) {
                     TableColumn("Name") { resource in
@@ -43,7 +48,8 @@ struct ResourcesView: View {
                             .onDrag {
                                 let fallback = NSItemProvider(object: String(resource.name) as NSString)
                                 guard resource.isSynced() == true else { return fallback }
-                                let provider = NSItemProvider(object: URL(fileURLWithPath: resource.getPath(withSync: true)) as NSURL)
+                                let url = URL(fileURLWithPath: resource.getPath(withSync: true))
+                                guard let provider = NSItemProvider(contentsOf: url) else { return fallback }
                                 return provider
                             }
                     }
@@ -63,20 +69,15 @@ struct ResourcesView: View {
                 } rows: {
                     ForEach(courses.filter { filterCourses ? $0.fileCount > 0 : true }, id: \.id) { course in
                         TableRow(CourseResource(name: course.name, type: .course, course: course, depth: 0))
-                        let filtered = course.files.filter { search == "" || $0.name.lowercased().contains(search.lowercased()) }
-                        ForEach(filtered) { resource in
+                        let filtered = course.files.filter { query == "" || $0.name.lowercased().contains(query.lowercased()) }
+                        ForEach(filtered.filter { includeUncommonResources || commonResourceTypes.contains($0.type) }) { resource in
                             TableRow(resource)
                         }
                     }
                 }
-                .onReceive(appContext.$resourceSelection) { selection in
-                    appContext.resource = courses.flatMap({ $0.files }).filter({ $0.id == selection }).first
-                }
             } else {
                 Button("Refresh") {
-                    loading = true
                     appContext.fetch(context) {
-                        loading = false
                         switch $0 {
                         case .failure(let error): appContext.errorMessage = error.localizedDescription; break
                         default: break
@@ -86,26 +87,12 @@ struct ResourcesView: View {
                 .controlSize(.large)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
+            SyncStatusBarView(loading: $appContext.updating)
         }
-        .searchable(text: .init { search } set: { query in withAnimation { search = query } })
+        .searchable(text: $search)
+        .onSubmit(of: .search) { withAnimation { query = search } }
         .touchBar { touchBarControls }
         .toolbar {
-            if loading {
-                ProgressView()
-                    .controlSize(.small)
-            }
-            Button(action: {
-                presentStatus.toggle()
-            }) {
-                Image(systemName: "info.circle")
-            }
-            .help("Show resource availability")
-            .keyboardShortcut("i", modifiers: .command)
-            .popover(isPresented: $presentStatus) {
-                let resources = courses.flatMap { $0.files }
-                Text("\(resources.filter({ $0.type == .file }).count) out of \(resources.count) files available for synchronization")
-                    .padding()
-            }
             Toggle(isOn: .init { filterCourses } set: { x in withAnimation { filterCourses = x } }) {
                 Image(systemName: "graduationcap")
             }
@@ -113,19 +100,17 @@ struct ResourcesView: View {
             .keyboardShortcut("f", modifiers: [.command, .shift])
         }
         .onAppear {
-            loading = true
             appContext.fetch(context) {
-                loading = false
                 switch $0 {
                 case .failure(let error): appContext.errorMessage = error.localizedDescription; break
                 default: break
                 }
             }
         }
-        .onReceive(timer) { _ in
-            guard let image = AppDelegate.shared.statusBarItem?.button?.image else { return }
-            AppDelegate.shared.statusBarItem?.button?.image = image.rotated(by: 90)
-        }
+//        .onReceive(timer) { _ in
+//            guard let image = AppDelegate.shared.statusBarItem?.button?.image else { return }
+//            AppDelegate.shared.statusBarItem?.button?.image = image.rotated(by: 90)
+//        }
     }
     
     var touchBarControls: some View {
@@ -135,7 +120,7 @@ struct ResourcesView: View {
                 Button(action: {
                     resource.openDirectory()
                 }) {
-                    Image(systemName: "folder.fill")
+                    Image(systemName: "folder")
                         .padding(.horizontal)
                         .foregroundColor(Color(resource.isSynced() != true ? .disabledControlTextColor : .systemTeal))
                 }
@@ -143,7 +128,7 @@ struct ResourcesView: View {
                 Button(action: {
                     resource.open()
                 }) {
-                    Image(systemName: "arrow.up.doc.fill")
+                    Image(systemName: "arrow.up.doc")
                         .padding(.horizontal)
                         .foregroundColor(Color(.systemBlue))
                 }
@@ -158,7 +143,7 @@ struct ResourcesView: View {
                         }
                     }
                 }) {
-                    Image(systemName: "arrow.down.circle.fill")
+                    Image(systemName: "arrow.down.circle")
                         .padding(.horizontal)
                         .foregroundColor(Color(resource.isSynced() == true ? .disabledControlTextColor : .systemGreen))
                 }
@@ -166,7 +151,7 @@ struct ResourcesView: View {
                 Button(action: {
                     resource.offload()
                 }) {
-                    Image(systemName: "minus.circle.fill")
+                    Image(systemName: "minus.circle")
                         .padding(.horizontal)
                         .foregroundColor(Color(resource.isSynced() == false ? .disabledControlTextColor : .systemRed))
                 }
@@ -176,7 +161,7 @@ struct ResourcesView: View {
                     Button(action: {
                          appContext.presentMirror.toggle()
                     }) {
-                        Image(systemName: "slider.horizontal.below.rectangle")
+                        Image(systemName: "externaldrive.connected.to.line.below")
                             .padding(.horizontal)
                     }
                     .disabled(true) // Causes bug; Temporarily disabled
@@ -200,4 +185,3 @@ struct ContentView_Previews: PreviewProvider {
             .environmentObject(AppContext())
     }
 }
-

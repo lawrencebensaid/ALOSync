@@ -63,8 +63,8 @@ struct ALOTask: Codable, Identifiable {
         }
         let startedAt = try? container.decodeIfPresent(Double.self, forKey: .startedAt)
         self.startedAt = startedAt != nil ? Date(timeIntervalSince1970: startedAt! / 1000) : nil
+        self.message = (try? container.decodeIfPresent(String.self, forKey: .message)) ?? ""
         self.progress = try? container.decodeIfPresent(Float.self, forKey: .progress)
-        self.message = try? container.decodeIfPresent(String.self, forKey: .message)
     }
     
 }
