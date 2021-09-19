@@ -22,6 +22,7 @@ struct ALOSyncApp: App {
     
     @State private var artifact = 1
     @State private var synced: Bool?
+    @State private var presentMirror = false
     
     init() {
         appDelegate.appContext = appContext
@@ -31,7 +32,7 @@ struct ALOSyncApp: App {
     
     var body: some Scene {
         WindowGroup {
-            if let token = token {
+            if ALO.standard.isSignedIn {
                 HStack {
                     ResourcesView()
                         .environment(\.managedObjectContext, viewContext)
@@ -43,13 +44,16 @@ struct ALOSyncApp: App {
                     ToolbarItem(placement: .status) {
                         if showMirror {
                             Button(action: {
-                                appContext.presentMirror.toggle()
+                                // appContext.presentMirror.toggle() // Temprarily disabled
+                                presentMirror.toggle()
                             }) {
                                 Image(systemName: "slider.horizontal.below.rectangle")
                             }
                             .help("Show mirror server status")
-                            .popover(isPresented: $appContext.presentMirror) {
+                            .keyboardShortcut("s", modifiers: [.control, .option])
+                            .popover(isPresented: $presentMirror) {
                                 StatusView()
+                                    .environmentObject(appContext)
                             }
                         }
                     }
@@ -96,6 +100,7 @@ struct ALOSyncApp: App {
                         appContext.presentMirror.toggle()
                     }
                     .keyboardShortcut("s", modifiers: [.control, .option])
+                    .disabled(true) // Causes bug; temporarily disabled
                 }
             }
             CommandMenu("Resource") {

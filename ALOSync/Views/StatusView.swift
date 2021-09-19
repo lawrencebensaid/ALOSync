@@ -9,16 +9,9 @@ import SwiftUI
 
 struct StatusView: View {
     
-    private let timer = Timer.publish(every: 0.5, on: .main, in: .common).autoconnect()
-    @State private var fails = 0
     @State private var updating = false
-    @State private var status: ALOStatus?
-    
-    init() { }
-    
-    init(status: ALOStatus?) {
-        _status = State(initialValue: status)
-    }
+    @State private var listening = false
+    @State public var status: ALOStatus?
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -95,39 +88,70 @@ struct StatusView: View {
                             .foregroundColor(Color(.systemGray))
                     }
                 }
-            } else if fails > 1 {
-                Text("Service unreachable")
             } else {
                 ProgressView()
             }
         }
         .padding()
-        .onAppear { update() }
-        .onReceive(timer) { _ in update(animate: true) }
+        .onAppear {
+            update()
+            listen()
+        }
+        .onDisappear {
+            listening = false
+        }
         .frame(minWidth: 350)
     }
     
+    private func listen() {
+        let urlSession = URLSession(configuration: .default)
+        let task = urlSession.webSocketTask(with: ALO.standard.wsBaseUrl)
+        task.resume()
+        self.listening = true
+        receive(task)
+    }
+    
+    private func receive(_ task: URLSessionWebSocketTask) {
+        task.receive { result in
+            guard listening else { return }
+            switch result {
+            case .success(let message):
+                switch message {
+                case .data(let data):
+                    if let update = try? JSONDecoder().decode(ALOOrchestrator.self, from: data) {
+                        var status = self.status
+                        status?.orchestrator = update
+                        withAnimation(.spring()) {
+                            self.status = status
+                        }
+                    }
+                    break
+                default: break
+                }
+                receive(task)
+            case .failure(let error):
+                print("Error when receiving \(error.localizedDescription)")
+                DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 2) {
+                    receive(task)
+                }
+            }
+        }
+    }
+
     private func update(animate: Bool = false) {
         guard updating == false else { return }
-        guard let mirrorHost = UserDefaults.standard.string(forKey: "mirrorHost") else { return }
-        let request = URLRequest(url: URL(string: "\(mirrorHost)?dataOnly=1")!)
+        let request = URLRequest(url: URL(string: "\(ALO.standard.base)?dataOnly=1")!)
         updating = true
         URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
                 updating = false
                 if let error = error {
-                    fails += 1
                     print(error.localizedDescription)
                     return
                 }
                 guard let data = data else { return }
                 let status = try? JSONDecoder().decode(ALOStatus.self, from: data)
-                fails = 0
-                if animate {
-                    withAnimation(.spring()) { self.status = status }
-                } else {
-                    self.status = status
-                }
+                self.status = status
             }
         }.resume()
     }
@@ -137,7 +161,7 @@ struct StatusView: View {
 struct StatusView_Previews: PreviewProvider {
     
     static var previews: some View {
-        StatusView(status: .preview)
+        StatusView()
     }
     
 }

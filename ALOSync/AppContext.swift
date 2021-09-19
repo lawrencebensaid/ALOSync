@@ -12,10 +12,14 @@ import SwiftUI
 class AppContext: ObservableObject {
     
     @Published public var showLogin = false
-    @Published public var presentMirror = false
+    @Published public var errorMessage: String?
     @Published public var resourceSelection: String?
     @Published public var resource: CourseResource?
-    @Published public var errorMessage: String?
+    
+    // Developer mode
+    @Published public var presentMirror = false // Causes memory leak, maybe a SwiftUI bug?
+    
+    init() { }
     
     public func offloadAll(_ viewContext: NSManagedObjectContext) {
         let request = Course.fetchRequest()
@@ -26,8 +30,7 @@ class AppContext: ObservableObject {
     
     public func fetch(_ context: NSManagedObjectContext, _ complete: ((Result<[Course], APIError>) -> ())? = nil) {
         guard let token = UserDefaults.standard.string(forKey: "token") else { return }
-        guard let host = UserDefaults.standard.string(forKey: "mirrorHost") else { return }
-        var request = URLRequest(url: URL(string: "\(host)/my/course")!)
+        var request = URLRequest(url: URL(string: "\(ALO.standard.base)/my/course")!)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ALOOrchestrator: Decodable {
+class ALOOrchestrator: ObservableObject, Decodable {
     
     static let preview = ALOOrchestrator(message: "Orchestrating", tasks: [.preview, .preview])
     
@@ -46,7 +46,7 @@ struct ALOOrchestrator: Decodable {
         self.tasks = tasks
     }
     
-    public init(from decoder: Decoder) throws {
+    required public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         if let status = try? container.decodeIfPresent(String.self, forKey: .status) {
             self.status = Status(rawValue: status) ?? .unknown

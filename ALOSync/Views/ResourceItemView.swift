@@ -33,6 +33,7 @@ struct ResourceItemView: View {
             .buttonStyle(PlainButtonStyle())
             .disabled(true)
             Image(systemName: resource.type.systemImage)
+                .foregroundColor(.accentColor)
             Text(resource.name)
             Spacer()
             if loading {

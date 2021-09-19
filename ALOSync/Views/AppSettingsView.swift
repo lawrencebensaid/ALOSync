@@ -12,18 +12,21 @@ struct AppSettingsView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject private var appContext: AppContext
     
+    @AppStorage(ALO.Setting.authority.rawValue) private var mirrorHost = ALO.default(.authority)
+    @AppStorage(ALO.Setting.useTLS.rawValue) private var mirrorScheme = ALO.default(.useTLS)
+    
     @AppStorage("syncPath") private var syncPath: String?
     @AppStorage("showMirror") private var showMirror = false
-    @AppStorage("mirrorHost") private var mirrorHost = "https://alo.se0.dev"
     @AppStorage("showFullPathInTooltip") private var showFullPathInTooltip = false
     @AppStorage("token") private var token: String?
     @AppStorage("developerMode") private var developerMode = false
     
     @State private var presentForget = false
     @State private var presentErase = false
+    @State private var tab = 0
     
     var body: some View {
-        TabView {
+        TabView(selection: $tab) {
             Form {
                 Section {
                     Toggle("Show full path in Tooltips", isOn: $showFullPathInTooltip)
@@ -65,15 +68,18 @@ struct AppSettingsView: View {
                 }
             }
             .padding()
+            .tag(0)
             .tabItem {
                 Image(systemName: "slider.horizontal.below.rectangle")
                 Text("General")
             }
             Form {
                 Section {
-                    TextField("Mirror host", text: $mirrorHost)
+                    Toggle("Use TLS", isOn: .init { mirrorScheme == "1" } set: { mirrorScheme = $0 ? "1": "0" })
+                        .help("If enabled, uses HTTP instead of HTTPS")
+                    TextField(ALO.default(.authority), text: $mirrorHost)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .help("Server endpoint")
+                        .help("Server authority")
                     Button("Forget auth") {
                         presentForget = true
                     }
@@ -86,7 +92,7 @@ struct AppSettingsView: View {
                         .font(.headline)
                 }
                 Section {
-                    Toggle("Show mirror status", isOn: $showMirror)
+                    Toggle("Server monitor", isOn: $showMirror)
                         .help("If enabled, allows you to view the status of the mirror server")
                     Toggle("Developer mode", isOn: $developerMode)
                         .help("If enabled, nerdy features will be enabled")
@@ -108,14 +114,22 @@ struct AppSettingsView: View {
                         .font(.headline)
                         .padding(.top)
                 }
+                Button("Reset") {
+                    ALO.standard.reset()
+                    showMirror = false
+                    developerMode = false
+                }
+                .disabled(ALO.standard.isDefault)
+                .padding(.top)
             }
             .padding()
+            .tag(1)
             .tabItem {
                 Image(systemName: "gear")
                 Text("Advanced")
             }
         }
-        .frame(width: 400, height: 250)
+        .frame(width: 400, height: tab == 1 ? 300 : 200)
     }
     
 }

@@ -24,6 +24,7 @@ struct ResourcesView: View {
     @State private var presentStatus = false
     @State private var loading = false
     @State private var filterCourses = true
+    @State private var search = ""
     
     private var rotation: CGFloat = 0
     
@@ -32,56 +33,44 @@ struct ResourcesView: View {
     var body: some View {
         VStack {
             if courses.count > 0 {
-                if #available(macOS 12.0, *) {
-                    Table(selection: $appContext.resourceSelection) {
-                        TableColumn("Name") { resource in
-                            ResourceItemView()
-                                .environmentObject(resource)
-                                .environmentObject(appContext)
-                                .frame(height: 30)
-                                .help(resource.getPath(withSync: showFullPathInTooltip))
-                        }
-                        .width(min: 150, ideal: 500)
-                        TableColumn("Size") {
-                            if let size = $0.size {
-                                Text("\(size.bytesString())")
-                                    .foregroundColor(Color(.secondaryLabelColor))
-                            }
-                        }
-                        .width(min: 35)
-                        TableColumn("Kind") {
-                            Text($0.subtype?.label ?? $0.type.rawValue.capitalized)
-                                .foregroundColor(Color(.secondaryLabelColor))
-                        }
-                        .width(min: 45)
-                    } rows: {
-                        ForEach(courses.filter { filterCourses ? $0.fileCount > 0 : true }, id: \.id) { course in
-                            TableRow(CourseResource(name: course.name, type: .course, course: course, depth: 0))
-                            ForEach(course.files) { resource in
-                                TableRow(resource)
-                            }
-                        }
-                    }
-                    .onReceive(appContext.$resourceSelection) { selection in
-                        appContext.resource = courses.flatMap({ $0.files }).filter({ $0.id == selection }).first
-                    }
-                } else {
-                    List(courses.filter { $0.fileCount > 0 }) { course in
+                Table(selection: $appContext.resourceSelection) {
+                    TableColumn("Name") { resource in
                         ResourceItemView()
-                            .environmentObject(CourseResource(name: course.name, type: .course, depth: 0))
+                            .environmentObject(resource)
                             .environmentObject(appContext)
                             .frame(height: 30)
-                        VStack(alignment: .leading) {
-                            if let resources = course.files {
-                                ForEach(resources) { resource in
-                                    ResourceItemView()
-                                        .environmentObject(resource)
-                                        .environmentObject(appContext)
-                                        .frame(height: 30)
-                                }
+                            .help(resource.getPath(withSync: showFullPathInTooltip))
+                            .onDrag {
+                                let fallback = NSItemProvider(object: String(resource.name) as NSString)
+                                guard resource.isSynced() == true else { return fallback }
+                                let provider = NSItemProvider(object: URL(fileURLWithPath: resource.getPath(withSync: true)) as NSURL)
+                                return provider
                             }
+                    }
+                    .width(min: 150, ideal: 500)
+                    TableColumn("Size") {
+                        if let size = $0.size {
+                            Text("\(size.bytesString())")
+                                .foregroundColor(Color(.secondaryLabelColor))
                         }
                     }
+                    .width(min: 35)
+                    TableColumn("Kind") {
+                        Text($0.subtype?.label ?? $0.type.rawValue.capitalized)
+                            .foregroundColor(Color(.secondaryLabelColor))
+                    }
+                    .width(min: 45)
+                } rows: {
+                    ForEach(courses.filter { filterCourses ? $0.fileCount > 0 : true }, id: \.id) { course in
+                        TableRow(CourseResource(name: course.name, type: .course, course: course, depth: 0))
+                        let filtered = course.files.filter { search == "" || $0.name.lowercased().contains(search.lowercased()) }
+                        ForEach(filtered) { resource in
+                            TableRow(resource)
+                        }
+                    }
+                }
+                .onReceive(appContext.$resourceSelection) { selection in
+                    appContext.resource = courses.flatMap({ $0.files }).filter({ $0.id == selection }).first
                 }
             } else {
                 Button("Refresh") {
@@ -98,6 +87,7 @@ struct ResourcesView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
+        .searchable(text: .init { search } set: { query in withAnimation { search = query } })
         .touchBar { touchBarControls }
         .toolbar {
             if loading {
@@ -110,6 +100,7 @@ struct ResourcesView: View {
                 Image(systemName: "info.circle")
             }
             .help("Show resource availability")
+            .keyboardShortcut("i", modifiers: .command)
             .popover(isPresented: $presentStatus) {
                 let resources = courses.flatMap { $0.files }
                 Text("\(resources.filter({ $0.type == .file }).count) out of \(resources.count) files available for synchronization")
@@ -119,6 +110,7 @@ struct ResourcesView: View {
                 Image(systemName: "graduationcap")
             }
             .help("Only show courses containing files/resources")
+            .keyboardShortcut("f", modifiers: [.command, .shift])
         }
         .onAppear {
             loading = true
@@ -182,21 +174,22 @@ struct ResourcesView: View {
                 if showMirror {
                     Divider()
                     Button(action: {
-                        appContext.presentMirror.toggle()
+                         appContext.presentMirror.toggle()
                     }) {
                         Image(systemName: "slider.horizontal.below.rectangle")
                             .padding(.horizontal)
                     }
+                    .disabled(true) // Causes bug; Temporarily disabled
                 }
             }
         }
     }
     
-    private func update(_ systemName: String) {
-        DispatchQueue.main.async {
-            AppDelegate.shared.statusBarItem?.button?.image = NSImage(systemSymbolName: systemName, accessibilityDescription: "Active")
-        }
-    }
+//    private func update(_ systemName: String) {
+//        DispatchQueue.main.async {
+//            AppDelegate.shared.statusBarItem?.button?.image = NSImage(systemSymbolName: systemName, accessibilityDescription: "Active")
+//        }
+//    }
     
 }
 
@@ -207,3 +200,4 @@ struct ContentView_Previews: PreviewProvider {
             .environmentObject(AppContext())
     }
 }
+

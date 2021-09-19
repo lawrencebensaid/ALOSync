@@ -54,7 +54,7 @@ struct LoginView: View {
     }
     
     private func signIn() {
-        guard let url = URL(string: "\(UserDefaults.standard.string(forKey: "mirrorHost") ?? "")/auth") else { return }
+        guard let url = URL(string: "\(ALO.standard.base)/auth") else { return }
         if username.isEmpty {
             errorMessage = "Enter a username"
             return

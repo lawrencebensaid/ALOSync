@@ -159,7 +159,7 @@ public class CourseResource: Decodable, Identifiable, ObservableObject {
     public func sync(onResult: ((Result<Void, Error>) -> ())? = nil) {
         guard let token = UserDefaults.standard.string(forKey: "token") else { return }
         guard let fid = fid else { return }
-        let url = URL(string: "\(UserDefaults.standard.string(forKey: "mirrorHost") ?? "")/file/\(fid)")
+        let url = URL(string: "\(ALO.standard.base)/file/\(fid)")
         var request = URLRequest(url: url!)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         URLSession.shared.dataTask(with: request) { data, response, error in

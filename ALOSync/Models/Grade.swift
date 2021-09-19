@@ -11,8 +11,7 @@ class Grade {
     
     static func update() {
         guard let token = UserDefaults.standard.string(forKey: "token") else { return }
-        guard let host = UserDefaults.standard.string(forKey: "mirrorHost") else { return }
-        let url = URL(string: "\(host)/my/grade")!
+        let url = URL(string: "\(ALO.standard.base)/my/grade")!
         var request = URLRequest(url: url)
         request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         URLSession.shared.dataTask(with: request) { data, response, error in
