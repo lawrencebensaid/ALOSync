@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ALOTask: Codable, Identifiable {
+struct ALOTask: Decodable, Identifiable {
     
     static var preview: ALOTask { ALOTask(id: "task.\(Int.random(in: 10...99))", status: .running, startedAt: Date(), progress: .random(in: 0...1), message: "Testing...") }
     
@@ -63,31 +63,8 @@ struct ALOTask: Codable, Identifiable {
         }
         let startedAt = try? container.decodeIfPresent(Double.self, forKey: .startedAt)
         self.startedAt = startedAt != nil ? Date(timeIntervalSince1970: startedAt! / 1000) : nil
-        self.message = (try? container.decodeIfPresent(String.self, forKey: .message)) ?? ""
-        self.progress = try? container.decodeIfPresent(Float.self, forKey: .progress)
-    }
-    
-}
-
-
-struct ALOJob: Codable, Identifiable {
-
-    var id: String
-    var ranAt: Date?
-    var message: String?
-    
-    private enum CodingKeys: CodingKey {
-        case id
-        case ranAt
-        case message
-    }
-    
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = try container.decode(String.self, forKey: .id)
-        let ranAt = try? container.decodeIfPresent(Double.self, forKey: .ranAt)
-        self.ranAt = ranAt != nil ? Date(timeIntervalSince1970: ranAt! / 1000) : nil
         self.message = try? container.decodeIfPresent(String.self, forKey: .message)
+        self.progress = try? container.decodeIfPresent(Float.self, forKey: .progress)
     }
     
 }

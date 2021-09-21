@@ -64,7 +64,7 @@ struct ALOSyncApp: App {
             } else {
                 LoginView()
                     .environmentObject(appContext)
-                    .frame(width: 400, height: 250)
+                    .frame(width: 450, height: 250)
                     .presentedWindowStyle(HiddenTitleBarWindowStyle())
                     .navigationTitle("Sign in")
             }

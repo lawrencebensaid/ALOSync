@@ -28,7 +28,12 @@ struct StatusView: View {
                         .font(.title)
                         .padding(.top)
                     HStack {
-                        Text("\(orchestrator.message)")
+                        if let message = orchestrator.message {
+                            Text(message)
+                        } else {
+                            ProgressView()
+                                .controlSize(.small)
+                        }
                         Spacer()
                         Text(orchestrator.status.rawValue.capitalized)
                             .foregroundColor(orchestrator.status.color)
@@ -42,7 +47,7 @@ struct StatusView: View {
                             ForEach(tasks) { task in
                                 VStack(alignment: .leading, spacing: 0) {
                                     Text(task.id)
-                                        .font(.system(size: 14, weight: .bold))
+                                        .font(.system(size: 14, weight: .bold, design: .monospaced))
                                         .foregroundColor(task.status.color)
                                     HStack(alignment: .bottom) {
                                         if let progress = task.progress {
@@ -53,20 +58,20 @@ struct StatusView: View {
                                         if let date = task.startedAt {
                                             Text("Started \(date, formatter: .relative())")
                                                 .font(.system(size: 10))
-                                                .foregroundColor(Color(.systemGray))
+                                                .foregroundColor(.secondary)
                                         }
                                     }
                                     if let progress = task.progress {
                                         ProgressView(value: progress, total: 1)
                                     }
                                 }
-                                .help(task.message ?? "")
+//                                .help(task.message ?? "")
                             }
                         }
                     } else {
                         Text("Currently no tasks are running")
                             .italic()
-                            .foregroundColor(Color(.systemGray))
+                            .foregroundColor(.secondary)
                     }
                     Text("Jobs")
                         .font(.title2)
@@ -75,17 +80,25 @@ struct StatusView: View {
                         ForEach(orchestrator.jobs.sorted(by: { $0.id.compare($1.id) == .orderedAscending })) { job in
                             VStack(alignment: .leading) {
                                 Text(job.id)
-                                    .bold()
-                                Text(job.message ?? "")
-                                    .font(.system(size: 10))
-                                    .foregroundColor(Color(.systemGray))
+                                    .font(.system(size: 14, weight: .bold, design: .monospaced))
+                                if let lastRun = job.lastRun {
+                                    Text("Last run \(lastRun, formatter: .relative())")
+                                        .font(.system(size: 10))
+                                        .foregroundColor(.secondary)
+                                }
+                                if let nextRun = job.nextRun {
+                                    Text("Next run \(nextRun, formatter: .relative())")
+                                        .font(.system(size: 10))
+                                        .foregroundColor(.secondary)
+                                }
                             }
                             .padding(.leading, 4)
+                            .help(job.message ?? "")
                         }
                     } else {
                         Text("Job history unavailable")
                             .italic()
-                            .foregroundColor(Color(.systemGray))
+                            .foregroundColor(.secondary)
                     }
                 }
             } else {

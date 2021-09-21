@@ -17,6 +17,7 @@
 		4D93AE4126F63DA20012971E /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D93AE4026F63DA20012971E /* Formatter.swift */; };
 		4DA0978426EF7E5200665486 /* ResourceItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA0978326EF7E5200665486 /* ResourceItemView.swift */; };
 		4DA0978626EF8B1500665486 /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA0978526EF8B1500665486 /* Int.swift */; };
+		4DA6580526FA49FE00FC7032 /* ALOJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA6580426FA49FE00FC7032 /* ALOJob.swift */; };
 		4DA96C6126F7A9FB00088774 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA96C6026F7A9FB00088774 /* BlurView.swift */; };
 		4DA96C6326F7AB6200088774 /* SyncStatusBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA96C6226F7AB6200088774 /* SyncStatusBarView.swift */; };
 		4DB1CB3F26E9043100DB4CFC /* CourseResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB1CB3E26E9043100DB4CFC /* CourseResource.swift */; };
@@ -67,6 +68,7 @@
 		4D93AE4026F63DA20012971E /* Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
 		4DA0978326EF7E5200665486 /* ResourceItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceItemView.swift; sourceTree = "<group>"; };
 		4DA0978526EF8B1500665486 /* Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
+		4DA6580426FA49FE00FC7032 /* ALOJob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALOJob.swift; sourceTree = "<group>"; };
 		4DA96C6026F7A9FB00088774 /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		4DA96C6226F7AB6200088774 /* SyncStatusBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncStatusBarView.swift; sourceTree = "<group>"; };
 		4DB1CB3E26E9043100DB4CFC /* CourseResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseResource.swift; sourceTree = "<group>"; };
@@ -217,9 +219,10 @@
 				4DF2AF0C26E8D4A800471857 /* Course.swift */,
 				4DB1CB3E26E9043100DB4CFC /* CourseResource.swift */,
 				4DF2AF1026E8E9E300471857 /* CodingUserInfoKey.swift */,
-				4D54D33326ECD34000DC8743 /* ALOStatus.swift */,
 				4D54D33126ECD04B00DC8743 /* ALOOrchestrator.swift */,
+				4D54D33326ECD34000DC8743 /* ALOStatus.swift */,
 				4D54D33526ECE63000DC8743 /* ALOTask.swift */,
+				4DA6580426FA49FE00FC7032 /* ALOJob.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -364,6 +367,7 @@
 				4DF2AF0E26E8D4A800471857 /* Course.swift in Sources */,
 				4D54D33626ECE63000DC8743 /* ALOTask.swift in Sources */,
 				4D0F760B26EFBC200054EAD9 /* AppContext.swift in Sources */,
+				4DA6580526FA49FE00FC7032 /* ALOJob.swift in Sources */,
 				4DF2AF1126E8E9E300471857 /* CodingUserInfoKey.swift in Sources */,
 				4DB1CB4226E90E6100DB4CFC /* ControlView.swift in Sources */,
 				4DDE040726F60832008A9940 /* Grade.swift in Sources */,

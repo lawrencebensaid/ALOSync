@@ -11,6 +11,8 @@ class ALO {
     
     public static let standard = ALO()
     
+    public static let fallback = ALO()
+    
     public enum Setting: String, CaseIterable {
         case authority = "mirrorHost"
         case useTLS = "mirrorTls"

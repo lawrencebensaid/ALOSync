@@ -14,13 +14,18 @@ struct LoginView: View {
     @AppStorage("username") private var username = ""
     @State private var password = ""
     @State private var errorMessage: String?
+    @State private var presentHelp = false
     @State private var loading = false
     
     @available(macOS 11.0, *)
     var body: some View {
         VStack {
-            Text("ALO Sync")
-                .font(.system(size: 28, weight: .bold))
+            Spacer()
+            Image("windesheim-logo")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(height: 64)
+                .padding(.bottom)
             if let token = token {
                 Text(token)
                 Button("Sign out") {
@@ -34,16 +39,43 @@ struct LoginView: View {
                     .textContentType(.username)
                     .help("Student ID or E-mail")
                     .disabled(loading)
+                    .frame(maxWidth: 350)
                 SecureField("Password", text: $password)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .controlSize(.large)
+                    .textContentType(.password)
                     .disabled(loading)
-                if loading {
-                    ProgressView()
-                } else {
-                    Button("Sign in") { signIn() }
+                    .frame(maxWidth: 350)
+                ZStack {
+                    Button(action: { signIn() }) {
+                        if loading {
+                            ProgressView()
+                                .controlSize(.small)
+                                .padding(.horizontal)
+                        } else {
+                            Text("Sign in")
+                        }
+                    }
+                    .disabled(loading)
+                    .buttonStyle(.borderedProminent)
                     .controlSize(.large)
-                    .padding(.top, 32)
+                    .padding(.top, 16)
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            Button(action: {
+                                presentHelp.toggle()
+                            }) {
+                                Image(systemName: "questionmark")
+                            }
+                            .clipShape(Circle())
+                            .popover(isPresented: $presentHelp) {
+                                Text("The user name look like \"s1234567\" or \"s1234567@student.windesheim.nl\"")
+                                    .padding()
+                            }
+                        }
+                    }
                 }
             }
         }

@@ -15,12 +15,13 @@ struct AppSettingsView: View {
     @AppStorage(ALO.Setting.authority.rawValue) private var mirrorHost = ALO.default(.authority)
     @AppStorage(ALO.Setting.useTLS.rawValue) private var mirrorScheme = ALO.default(.useTLS)
     
-    @AppStorage("syncPath") private var syncPath: String?
-    @AppStorage("showMirror") private var showMirror = false
-    @AppStorage("showFullPathInTooltip") private var showFullPathInTooltip = false
     @AppStorage("token") private var token: String?
-    @AppStorage("developerMode") private var developerMode = false
+    @AppStorage("syncPath") private var syncPath: String?
+    @AppStorage("showFullPathInTooltip") private var showFullPathInTooltip = false
     @AppStorage("includeUncommonResources") private var includeUncommonResources = false
+    @AppStorage("developerMode") private var developerMode = false
+    @AppStorage("showMirror") private var showMirror = false
+    @AppStorage("exposeToken") private var exposeToken = false
     
     @State private var presentForget = false
     @State private var presentErase = false
@@ -41,7 +42,7 @@ struct AppSettingsView: View {
                 Section {
                     HStack(alignment: .top) {
                         Text(syncPath ?? "Not set")
-                            .foregroundColor(syncPath == nil ? Color(.systemRed) : Color(.systemGray))
+                            .foregroundColor(syncPath == nil ? Color(.systemRed) : .secondary)
                             .font(.caption)
                         Button(action: {
                             let url = URL(fileURLWithPath: "file:\(syncPath ?? "")")
@@ -52,7 +53,7 @@ struct AppSettingsView: View {
                             }
                         }) {
                             Image(systemName: "arrow.right.circle.fill")
-                                .foregroundColor(Color(.systemGray))
+                                .foregroundColor(.secondary)
                         }
                         .buttonStyle(PlainButtonStyle())
                         .controlSize(.small)
@@ -63,10 +64,10 @@ struct AppSettingsView: View {
                         .controlSize(.small)
                         .help("Pick a location where your files will be synced to")
                     }
-                        .padding(.top, 8)
-                        .contextMenu {
-                            Button("Clear location") { syncPath = nil }
-                        }
+                    .padding(.top, 8)
+                    .contextMenu {
+                        Button("Clear location") { syncPath = nil }
+                    }
                 } header: {
                     Text("Sync location")
                         .font(.headline)
@@ -98,10 +99,32 @@ struct AppSettingsView: View {
                         .font(.headline)
                 }
                 Section {
-                    Toggle("Server monitor", isOn: $showMirror)
-                        .help("If enabled, allows you to view the status of the mirror server")
                     Toggle("Developer mode", isOn: $developerMode)
                         .help("If enabled, nerdy features will be enabled")
+                    if developerMode {
+                        Toggle("Server monitor", isOn: $showMirror)
+                            .help("If enabled, allows you to view the status of the mirror server")
+                        Toggle(isOn: $exposeToken) {
+                            HStack {
+                                Text("Expose token")
+                                if exposeToken {
+                                    Button(action: {
+                                        if let token = token {
+                                            NSPasteboard.general.declareTypes([.string], owner: self)
+                                            NSPasteboard.general.setString(token, forType: .string)
+                                        }
+                                    }) {
+                                        Image(systemName: "doc.on.doc.fill")
+                                            .foregroundColor(.secondary)
+                                    }
+                                    .buttonStyle(.plain)
+                                    .controlSize(.small)
+                                    .disabled(token == nil)
+                                }
+                            }
+                        }
+                        .help("If enabled, secret token will be exposed for a developer to copy")
+                    }
                     Button("Clear cache") {
                         presentErase = true
                     }

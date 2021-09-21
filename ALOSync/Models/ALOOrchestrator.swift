@@ -35,11 +35,11 @@ class ALOOrchestrator: ObservableObject, Decodable {
     }
     
     var status: Status
-    var message: String
+    var message: String?
     var jobs: [ALOJob]
     var tasks: [ALOTask]
     
-    private init(status: Status = .unknown, message: String, jobs: [ALOJob] = [], tasks: [ALOTask] = []) {
+    private init(status: Status = .unknown, message: String?, jobs: [ALOJob] = [], tasks: [ALOTask] = []) {
         self.status = status
         self.message = message
         self.jobs = jobs
@@ -53,7 +53,7 @@ class ALOOrchestrator: ObservableObject, Decodable {
         } else {
             self.status = .unknown
         }
-        self.message = try container.decode(String.self, forKey: .message)
+        self.message = try container.decodeIfPresent(String.self, forKey: .message)
         self.jobs = try container.decode([ALOJob].self, forKey: .jobs)
         self.tasks = try container.decode([ALOTask].self, forKey: .tasks)
     }
