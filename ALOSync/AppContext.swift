@@ -22,10 +22,9 @@ class AppContext: ObservableObject {
     init() { }
     
     public func offloadAll(_ viewContext: NSManagedObjectContext) {
-        let request = Course.fetchRequest()
+        let request = File.fetchRequest()
         let results = (try? viewContext.fetch(request)) ?? []
-        let resources = results.flatMap { $0.files }
-        for resource in resources { resource.offload() }
+        for resource in results { resource.offload() }
     }
     
     public func fetch(_ context: NSManagedObjectContext, _ complete: ((Result<[Course], APIError>) -> ())? = nil) {
@@ -51,7 +50,7 @@ class AppContext: ObservableObject {
                 }
                 let decoder = JSONDecoder()
                 decoder.userInfo[.context] = context
-                withAnimation {
+//                withAnimation {
                     let results = (try? context.fetch(Course.fetchRequest())) ?? []
                     for result in results { context.delete(result) }
                     if let courses = try? decoder.decode([Course].self, from: data) {
@@ -60,7 +59,44 @@ class AppContext: ObservableObject {
                         return
                     }
                     complete?(.failure(APIError("Something went wrong")))
+//                }
+            }
+        }.resume()
+    }
+    
+    public func fetchResources(_ context: NSManagedObjectContext, _ complete: ((Result<[File], APIError>) -> ())? = nil) {
+        guard let token = UserDefaults.standard.string(forKey: "token") else { return }
+        var request = URLRequest(url: URL(string: "\(ALO.standard.base)/my/resource")!)
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        updating = true
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            DispatchQueue.main.async {
+                self.updating = false
+                if let error = error {
+                    complete?(.failure(APIError("Something went wrong")))
+                    print(error.localizedDescription)
+                    return
                 }
+                guard let data = data else { return }
+                guard let status = (response as? HTTPURLResponse)?.statusCode else { return }
+                if status != 200 {
+                    print(status)
+                    let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+                    complete?(.failure(APIError(json?["message"] as? String ?? "Something went wrong")))
+                    return
+                }
+                let decoder = JSONDecoder()
+                decoder.userInfo[.context] = context
+//                withAnimation {
+                    let results = (try? context.fetch(File.fetchRequest())) ?? []
+                    for result in results { context.delete(result) }
+                    if let courses = try? decoder.decode([File].self, from: data) {
+                        try? context.save()
+                        complete?(.success(courses))
+                        return
+                    }
+                    complete?(.failure(APIError("Something went wrong")))
+//                }
             }
         }.resume()
     }

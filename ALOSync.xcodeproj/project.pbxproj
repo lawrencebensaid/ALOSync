@@ -14,13 +14,16 @@
 		4D54D33226ECD04B00DC8743 /* ALOOrchestrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D54D33126ECD04B00DC8743 /* ALOOrchestrator.swift */; };
 		4D54D33426ECD34000DC8743 /* ALOStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D54D33326ECD34000DC8743 /* ALOStatus.swift */; };
 		4D54D33626ECE63000DC8743 /* ALOTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D54D33526ECE63000DC8743 /* ALOTask.swift */; };
+		4D6B0B0726FF1974006BE5E2 /* CoursesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6B0B0626FF1974006BE5E2 /* CoursesView.swift */; };
+		4D6B0B0D26FF1C1D006BE5E2 /* CourseItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6B0B0C26FF1C1D006BE5E2 /* CourseItemView.swift */; };
 		4D93AE4126F63DA20012971E /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D93AE4026F63DA20012971E /* Formatter.swift */; };
+		4D9F092426FB3CFD0039445F /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9F092226FB3CFD0039445F /* File.swift */; };
 		4DA0978426EF7E5200665486 /* ResourceItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA0978326EF7E5200665486 /* ResourceItemView.swift */; };
 		4DA0978626EF8B1500665486 /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA0978526EF8B1500665486 /* Int.swift */; };
 		4DA6580526FA49FE00FC7032 /* ALOJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA6580426FA49FE00FC7032 /* ALOJob.swift */; };
 		4DA96C6126F7A9FB00088774 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA96C6026F7A9FB00088774 /* BlurView.swift */; };
 		4DA96C6326F7AB6200088774 /* SyncStatusBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA96C6226F7AB6200088774 /* SyncStatusBarView.swift */; };
-		4DB1CB3F26E9043100DB4CFC /* CourseResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB1CB3E26E9043100DB4CFC /* CourseResource.swift */; };
+		4DB1CB3F26E9043100DB4CFC /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB1CB3E26E9043100DB4CFC /* Resource.swift */; };
 		4DB1CB4226E90E6100DB4CFC /* ControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB1CB4126E90E6100DB4CFC /* ControlView.swift */; };
 		4DC6DC5C26EF63CC00637572 /* CourseThumbnailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC6DC5B26EF63CC00637572 /* CourseThumbnailView.swift */; };
 		4DDE040526F5D4B9008A9940 /* AppSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDE040426F5D4B9008A9940 /* AppSettingsView.swift */; };
@@ -65,13 +68,16 @@
 		4D54D33126ECD04B00DC8743 /* ALOOrchestrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALOOrchestrator.swift; sourceTree = "<group>"; };
 		4D54D33326ECD34000DC8743 /* ALOStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALOStatus.swift; sourceTree = "<group>"; };
 		4D54D33526ECE63000DC8743 /* ALOTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALOTask.swift; sourceTree = "<group>"; };
+		4D6B0B0626FF1974006BE5E2 /* CoursesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoursesView.swift; sourceTree = "<group>"; };
+		4D6B0B0C26FF1C1D006BE5E2 /* CourseItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseItemView.swift; sourceTree = "<group>"; };
 		4D93AE4026F63DA20012971E /* Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
+		4D9F092226FB3CFD0039445F /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		4DA0978326EF7E5200665486 /* ResourceItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceItemView.swift; sourceTree = "<group>"; };
 		4DA0978526EF8B1500665486 /* Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
 		4DA6580426FA49FE00FC7032 /* ALOJob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALOJob.swift; sourceTree = "<group>"; };
 		4DA96C6026F7A9FB00088774 /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		4DA96C6226F7AB6200088774 /* SyncStatusBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncStatusBarView.swift; sourceTree = "<group>"; };
-		4DB1CB3E26E9043100DB4CFC /* CourseResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseResource.swift; sourceTree = "<group>"; };
+		4DB1CB3E26E9043100DB4CFC /* Resource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
 		4DB1CB4126E90E6100DB4CFC /* ControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlView.swift; sourceTree = "<group>"; };
 		4DC6DC5B26EF63CC00637572 /* CourseThumbnailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseThumbnailView.swift; sourceTree = "<group>"; };
 		4DDE040426F5D4B9008A9940 /* AppSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsView.swift; sourceTree = "<group>"; };
@@ -121,19 +127,53 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4DB1CB4026E90E4600DB4CFC /* Views */ = {
+		4D6B0B0826FF1B97006BE5E2 /* Supporting */ = {
+			isa = PBXGroup;
+			children = (
+				4DA96C6026F7A9FB00088774 /* BlurView.swift */,
+				4DA96C6226F7AB6200088774 /* SyncStatusBarView.swift */,
+			);
+			name = Supporting;
+			sourceTree = "<group>";
+		};
+		4D6B0B0926FF1BA0006BE5E2 /* Overview */ = {
 			isa = PBXGroup;
 			children = (
 				4DF2AF0426E8A65500471857 /* LoginView.swift */,
+				4DDE040426F5D4B9008A9940 /* AppSettingsView.swift */,
 				4DF2AED726E8A5B900471857 /* ResourcesView.swift */,
-				4DB1CB4126E90E6100DB4CFC /* ControlView.swift */,
+				4D6B0B0626FF1974006BE5E2 /* CoursesView.swift */,
+			);
+			name = Overview;
+			sourceTree = "<group>";
+		};
+		4D6B0B0A26FF1BA9006BE5E2 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
 				4D54D32F26ECCFBF00DC8743 /* StatusView.swift */,
+				4D0F760E26EFD4DE0054EAD9 /* CourseDetailView.swift */,
+			);
+			name = Detail;
+			sourceTree = "<group>";
+		};
+		4D6B0B0B26FF1BB0006BE5E2 /* Item */ = {
+			isa = PBXGroup;
+			children = (
 				4DC6DC5B26EF63CC00637572 /* CourseThumbnailView.swift */,
 				4DA0978326EF7E5200665486 /* ResourceItemView.swift */,
-				4D0F760E26EFD4DE0054EAD9 /* CourseDetailView.swift */,
-				4DDE040426F5D4B9008A9940 /* AppSettingsView.swift */,
-				4DA96C6026F7A9FB00088774 /* BlurView.swift */,
-				4DA96C6226F7AB6200088774 /* SyncStatusBarView.swift */,
+				4D6B0B0C26FF1C1D006BE5E2 /* CourseItemView.swift */,
+			);
+			name = Item;
+			sourceTree = "<group>";
+		};
+		4DB1CB4026E90E4600DB4CFC /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				4D6B0B0B26FF1BB0006BE5E2 /* Item */,
+				4D6B0B0A26FF1BA9006BE5E2 /* Detail */,
+				4D6B0B0926FF1BA0006BE5E2 /* Overview */,
+				4D6B0B0826FF1B97006BE5E2 /* Supporting */,
+				4DB1CB4126E90E6100DB4CFC /* ControlView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -208,6 +248,7 @@
 				4DF2AF0926E8D09300471857 /* NSImage.swift */,
 				4DA0978526EF8B1500665486 /* Int.swift */,
 				4D93AE4026F63DA20012971E /* Formatter.swift */,
+				4DF2AF1026E8E9E300471857 /* CodingUserInfoKey.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -217,8 +258,8 @@
 			children = (
 				4DDE040626F60832008A9940 /* Grade.swift */,
 				4DF2AF0C26E8D4A800471857 /* Course.swift */,
-				4DB1CB3E26E9043100DB4CFC /* CourseResource.swift */,
-				4DF2AF1026E8E9E300471857 /* CodingUserInfoKey.swift */,
+				4DB1CB3E26E9043100DB4CFC /* Resource.swift */,
+				4D9F092226FB3CFD0039445F /* File.swift */,
 				4D54D33126ECD04B00DC8743 /* ALOOrchestrator.swift */,
 				4D54D33326ECD34000DC8743 /* ALOStatus.swift */,
 				4D54D33526ECE63000DC8743 /* ALOTask.swift */,
@@ -361,20 +402,23 @@
 				4D0F760F26EFD4DE0054EAD9 /* CourseDetailView.swift in Sources */,
 				4DF2AEDF26E8A5BB00471857 /* Persistence.swift in Sources */,
 				4D54D33226ECD04B00DC8743 /* ALOOrchestrator.swift in Sources */,
-				4DB1CB3F26E9043100DB4CFC /* CourseResource.swift in Sources */,
+				4DB1CB3F26E9043100DB4CFC /* Resource.swift in Sources */,
 				4DA0978426EF7E5200665486 /* ResourceItemView.swift in Sources */,
 				4D54D33026ECCFBF00DC8743 /* StatusView.swift in Sources */,
 				4DF2AF0E26E8D4A800471857 /* Course.swift in Sources */,
+				4D9F092426FB3CFD0039445F /* File.swift in Sources */,
 				4D54D33626ECE63000DC8743 /* ALOTask.swift in Sources */,
 				4D0F760B26EFBC200054EAD9 /* AppContext.swift in Sources */,
 				4DA6580526FA49FE00FC7032 /* ALOJob.swift in Sources */,
 				4DF2AF1126E8E9E300471857 /* CodingUserInfoKey.swift in Sources */,
 				4DB1CB4226E90E6100DB4CFC /* ControlView.swift in Sources */,
+				4D6B0B0D26FF1C1D006BE5E2 /* CourseItemView.swift in Sources */,
 				4DDE040726F60832008A9940 /* Grade.swift in Sources */,
 				4DF2AEE226E8A5BB00471857 /* ALOSync.xcdatamodeld in Sources */,
 				4DF2AED826E8A5B900471857 /* ResourcesView.swift in Sources */,
 				4DF2AF0526E8A65500471857 /* LoginView.swift in Sources */,
 				4DC6DC5C26EF63CC00637572 /* CourseThumbnailView.swift in Sources */,
+				4D6B0B0726FF1974006BE5E2 /* CoursesView.swift in Sources */,
 				4DA96C6326F7AB6200088774 /* SyncStatusBarView.swift in Sources */,
 				4DA96C6126F7A9FB00088774 /* BlurView.swift in Sources */,
 				4DF2AF0A26E8D09300471857 /* NSImage.swift in Sources */,

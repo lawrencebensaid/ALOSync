@@ -10,10 +10,18 @@ import Foundation
 extension Int {
     
     func bytesString(format: ByteCountFormatter.Units = [.useAll]) -> String {
+        return Int64(self).bytesString(format: format)
+    }
+    
+}
+
+extension Int64 {
+    
+    func bytesString(format: ByteCountFormatter.Units = [.useAll]) -> String {
         let bcf = ByteCountFormatter()
         bcf.allowedUnits = format
         bcf.countStyle = .file
-        return bcf.string(fromByteCount: Int64(self))
+        return bcf.string(fromByteCount: self)
     }
     
 }

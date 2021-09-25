@@ -23,6 +23,7 @@ struct ALOSyncApp: App {
     @State private var artifact = 1
     @State private var synced: Bool?
     @State private var presentMirror = false
+    @State private var content = 0
     
     init() {
         appDelegate.appContext = appContext
@@ -32,15 +33,41 @@ struct ALOSyncApp: App {
     
     var body: some Scene {
         WindowGroup {
-            if ALO.standard.isSignedIn {
+            if token != nil {
                 HStack {
-                    ResourcesView()
-                        .environment(\.managedObjectContext, viewContext)
-                        .environmentObject(appContext)
-                        .navigationTitle("Resources")
+                    if content == 1 {
+                        CoursesView()
+                            .environment(\.managedObjectContext, viewContext)
+                            .environmentObject(appContext)
+                            .navigationTitle("Courses")
+                    } else {
+                        ResourcesView()
+                            .environment(\.managedObjectContext, viewContext)
+                            .environmentObject(appContext)
+                            .navigationTitle("Resources")
+                    }
                 }
                 .frame(minWidth: 550, minHeight: 250)
                 .toolbar {
+                    ToolbarItem {
+                        Picker("Content", selection: $content) {
+                            Text("Resources").tag(0)
+                            Text("Courses").tag(1)
+                        }
+                        .pickerStyle(SegmentedPickerStyle())
+                        Button(action: {
+                            // appContext.presentMirror.toggle() // Temprarily disabled
+                            presentMirror.toggle()
+                        }) {
+                            Image(systemName: "externaldrive.connected.to.line.below")
+                        }
+                        .help("Show mirror server status")
+                        .keyboardShortcut("s", modifiers: [.control, .option])
+                        .popover(isPresented: $presentMirror) {
+                            StatusView()
+                                .environmentObject(appContext)
+                        }
+                    }
                     ToolbarItem(placement: .status) {
                         if showMirror {
                             Button(action: {

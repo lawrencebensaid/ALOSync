@@ -13,7 +13,7 @@ struct ResourceItemView: View {
     private let timer = Timer.publish(every: 2, on: .main, in: .common).autoconnect()
     
     @Environment(\.managedObjectContext) private var viewContext
-    @EnvironmentObject private var resource: CourseResource
+    @EnvironmentObject private var resource: File
     @EnvironmentObject private var appContext: AppContext
     
     @AppStorage("syncPath") private var syncPath: String?
@@ -48,7 +48,7 @@ struct ResourceItemView: View {
             } else if synced {
                 Image(systemName: "circle.fill")
                     .foregroundColor(Color(.secondaryLabelColor))
-            } else if resource.fid != nil && !resource.isSynced(at: syncPath) {
+            } else if !resource.isSynced(at: syncPath) {
                 Button(action: {
                     loading = true
                     resource.sync {

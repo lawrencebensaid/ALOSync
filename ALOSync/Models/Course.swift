@@ -1,5 +1,5 @@
 //
-//  Course+CoreDataClass.swift
+//  Course.swift
 //  Course
 //
 //  Created by Lawrence Bensaid on 08/09/2021.
@@ -15,10 +15,10 @@ public class Course: NSManagedObject, Decodable, Identifiable {
     
     public var id: String { code }
     public var canUpdate = false
-    public var filemap: [CourseResource]?
+    public var filemap: [Resource]?
     public var fileCount: Int { files.count }
-    public var files: [CourseResource] {
-        var arr: [CourseResource] = []
+    public var files: [Resource] {
+        var arr: [Resource] = []
         for resource in filemap ?? [] {
             arr.append(contentsOf: flatten(resource))
         }
@@ -29,6 +29,13 @@ public class Course: NSManagedObject, Decodable, Identifiable {
     @NSManaged public var name: String
     @NSManaged public var summary: String?
     @NSManaged public var points: Int16
+    @NSManaged public var resources: NSSet?
+    
+    public var resourceArray: [File] {
+        let set = resources as? Set<File> ?? []
+        
+        return set.sorted { $0.name < $1.name }
+    }
     
     required convenience public init(from decoder: Decoder) throws {
         guard let context = decoder.userInfo[.context] as? NSManagedObjectContext else { fatalError() }
@@ -37,15 +44,27 @@ public class Course: NSManagedObject, Decodable, Identifiable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.code = try container.decode(String.self, forKey: .code)
         self.name = try container.decode(String.self, forKey: .name)
-        self.summary = try container.decode(String.self, forKey: .description)
+        self.summary = try container.decode(String.self, forKey: .summary)
         self.points = try container.decodeIfPresent(Int16.self, forKey: .points) ?? -1
-        self.filemap = try container.decodeIfPresent([CourseResource].self, forKey: .filemap)
+        self.filemap = try container.decodeIfPresent([Resource].self, forKey: .filemap)
         self.canUpdate = (try? container.decodeIfPresent(Bool.self, forKey: .canUpdate)) ?? false
         index(filemap)
     }
     
-    private func flatten(_ resource: CourseResource) -> [CourseResource] {
-        var arr: [CourseResource] = [resource]
+    @objc(addResourceObject:)
+    @NSManaged public func addToResource(_ value: File)
+    
+    @objc(removeResourceObject:)
+    @NSManaged public func removeFromResource(_ value: File)
+    
+    @objc(addResource:)
+    @NSManaged public func addToResource(_ values: NSSet)
+    
+    @objc(removeResource:)
+    @NSManaged public func removeFromResource(_ values: NSSet)
+    
+    private func flatten(_ resource: Resource) -> [Resource] {
+        var arr: [Resource] = [resource]
         if let children = resource.children {
             for child in children {
                 arr.append(contentsOf: flatten(child))
@@ -54,7 +73,7 @@ public class Course: NSManagedObject, Decodable, Identifiable {
         return arr
     }
     
-    private func index(_ resources: [CourseResource]?, parent: CourseResource? = nil, depth: Int = 1) {
+    private func index(_ resources: [Resource]?, parent: Resource? = nil, depth: Int = 1) {
         if resources == nil { return }
         for resource in resources ?? [] {
             resource.parent = parent
@@ -102,17 +121,17 @@ public class Course: NSManagedObject, Decodable, Identifiable {
         }.resume()
     }
     
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<Course> {
+        return NSFetchRequest<Course>(entityName: "Course")
+    }
+    
     private enum CodingKeys: CodingKey {
         case code
         case name
-        case description
+        case summary
         case points
         case filemap
         case canUpdate
-    }
-    
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<Course> {
-        return NSFetchRequest<Course>(entityName: "Course")
     }
     
     public static func preview(_ context: NSManagedObjectContext) -> Course {

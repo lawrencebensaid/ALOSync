@@ -19,8 +19,8 @@ struct CourseThumbnailView: View {
                 thumbnail
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: 30, height: 25)
-                    .cornerRadius(8)
+                    .frame(width: 30, height: 20)
+                    .cornerRadius(4)
                     .shadow(radius: 2)
             } else if loading {
                 HStack {
@@ -46,7 +46,7 @@ struct CourseThumbnailView: View {
     }
 }
 
-struct CourseItemView_Previews: PreviewProvider {
+struct CourseThumbnailView_Previews: PreviewProvider {
     static var previews: some View {
         CourseThumbnailView()
     }

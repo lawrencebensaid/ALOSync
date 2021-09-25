@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19197" systemVersion="21A5506j" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19197" systemVersion="21A5522h" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Course" representedClassName="Course" syncable="YES">
         <attribute name="code" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="points" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="summary" optional="YES" attributeType="String"/>
+        <relationship name="resources" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="File" inverseName="course" inverseEntity="File"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="code"/>
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
+    <entity name="File" representedClassName="File" syncable="YES">
+        <attribute name="directory" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="size" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="subtype_" optional="YES" attributeType="String"/>
+        <attribute name="type_" optional="YES" attributeType="String"/>
+        <relationship name="course" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Course" inverseName="resources" inverseEntity="Course"/>
+    </entity>
     <elements>
-        <element name="Course" positionX="-63" positionY="-18" width="128" height="89"/>
+        <element name="Course" positionX="-237.3167724609375" positionY="-8.566070556640625" width="112.7645263671875" height="104"/>
+        <element name="File" positionX="-63" positionY="9" width="128" height="134"/>
     </elements>
 </model>

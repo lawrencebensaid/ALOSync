@@ -1,47 +1,62 @@
 //
-//  CourseResource.swift
-//  CourseResource
+//  File.swift
+//  File
 //
-//  Created by Lawrence Bensaid on 08/09/2021.
+//  Created by Lawrence Bensaid on 22/09/2021.
+//
 //
 
-import Foundation
 import AppKit
+import CoreData
 
-public class CourseResource: Decodable, Identifiable, ObservableObject {
+@objc(File)
+public class File: NSManagedObject, ResourceModel, Decodable {
     
-    public var id: String { fid ?? UUID().uuidString }
-    public let fid: String?
-    public let name: String
-    public let size: Int?
-    public let path: String?
-    public var courseCode: String? = nil
-    public let type: `Type`
-    public let subtype: Subtype?
-    public let children: [CourseResource]?
+    @NSManaged public var id: String
+    @NSManaged public var name: String
+    @NSManaged public var size: Int64
+    @NSManaged private var type_: String
+    @NSManaged private var subtype_: String?
+    @NSManaged public var directory: String?
+    
+    public var type: `Type` { get { `Type`(rawValue: type_) ?? .unknown } set { type_ = newValue.rawValue } }
+    public var subtype: Subtype? { get { subtype_ != nil ? Subtype(rawValue: subtype_!) : nil } set { subtype_ = newValue?.rawValue } }
     
     public var depth: Int = 1
-    public var parent: CourseResource? = nil
-    public var course: Course? = nil
+    public var parent: Resource? = nil
+    @NSManaged public var course: Course?
     
-    private static let systemImages: [`Type`: String] = [
-        .unknown: "questionmark",
-        .webpage: "globe",
-        .folder: "folder",
-        .course: "graduationcap.fill",
-        .file: "doc",
-        .form: "contextualmenu.and.cursorarrow",
-        .resource: "link"
-    ]
+    required convenience public init(from decoder: Decoder) throws {
+        guard let context = decoder.userInfo[.context] as? NSManagedObjectContext else { fatalError() }
+        guard let entity = NSEntityDescription.entity(forEntityName: "File", in: context) else { fatalError() }
+        self.init(entity: entity, insertInto: context)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try container.decode(String.self, forKey: .id)
+        self.name = try container.decode(String.self, forKey: .name)
+        self.size = (try? container.decodeIfPresent(Int64.self, forKey: .size)) ?? -1
+        self.type_ = try container.decode(String.self, forKey: .type)
+        self.subtype_ = try container.decodeIfPresent(String.self, forKey: .subtype)
+        self.directory = try container.decodeIfPresent(String.self, forKey: .directory)
+        if let course = try? container.decodeIfPresent([String: String].self, forKey: .course), let code = course["code"] {
+            let results = (try? context.fetch(Course.fetchRequest())) ?? []
+            self.course = results.filter({ $0.code == code }).first
+        } else {
+            self.course = nil
+        }
+    }
+    
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<File> {
+        return NSFetchRequest<File>(entityName: "File")
+    }
     
     private enum CodingKeys: CodingKey {
         case id
         case name
         case size
-        case path
         case type
         case subtype
-        case children
+        case directory
+        case course
     }
     
     public enum `Type`: String, Codable {
@@ -52,10 +67,9 @@ public class CourseResource: Decodable, Identifiable, ObservableObject {
         case file = "file"
         case form = "form"
         case resource = "resource"
-        @available(*, deprecated, renamed: "webpage")
         case video = "video"
         
-        public var systemImage: String { CourseResource.systemImages[self] ?? "questionmark" }
+        public var systemImage: String { File.systemImages[self] ?? "questionmark" }
     }
     
     public enum Subtype: String, Codable {
@@ -76,38 +90,22 @@ public class CourseResource: Decodable, Identifiable, ObservableObject {
         }
     }
     
-    init(fid: String? = nil, name: String, type: `Type`, subtype: Subtype? = nil, size: Int? = nil, path: String? = nil, course: Course? = nil, depth: Int = 1, children: [CourseResource]? = nil) {
-        self.fid = fid
-        self.name = name
-        self.type = type
-        self.subtype = subtype
-        self.size = size
-        self.path = path
-        self.course = course
-        self.depth = depth
-        self.children = children
-    }
-    
-    required public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.fid = try container.decodeIfPresent(String.self, forKey: .id)
-        self.name = try container.decode(String.self, forKey: .name)
-        guard let type = `Type`(rawValue: try container.decode(String.self, forKey: .type)) else { throw ParsingError() }
-        self.type = type
-        let subtype = Subtype(rawValue: try container.decodeIfPresent(String.self, forKey: .subtype) ?? "")
-        self.subtype = subtype
-        self.size = try container.decodeIfPresent(Int.self, forKey: .size)
-        self.path = try container.decodeIfPresent(String.self, forKey: .path)
-        self.children = try container.decodeIfPresent([CourseResource].self, forKey: .children)
-    }
+    private static let systemImages: [`Type`: String] = [
+        .unknown: "questionmark",
+        .folder: "folder",
+        .course: "graduationcap.fill",
+        .file: "doc",
+        .form: "contextualmenu.and.cursorarrow",
+        .resource: "link"
+    ]
     
     public func getPath(withSync: Bool = false, includeSelf: Bool = true) -> String {
         var path = ""
         if withSync {
             path = UserDefaults.standard.string(forKey: "syncPath") ?? ""
         }
-        if let parent = parent {
-            path = "\(path)\(parent.getPath())"
+        if let directory = directory {
+            path = "\(path)/\(directory)"
         }
         if includeSelf {
             path = "\(path)/\(name)"
@@ -158,8 +156,7 @@ public class CourseResource: Decodable, Identifiable, ObservableObject {
     
     public func sync(onResult: ((Result<Void, Error>) -> ())? = nil) {
         guard let token = UserDefaults.standard.string(forKey: "token") else { return }
-        guard let fid = fid else { return }
-        let url = URL(string: "\(ALO.standard.base)/file/\(fid)")
+        let url = URL(string: "\(ALO.standard.base)/file/\(id)")
         var request = URLRequest(url: url!)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         URLSession.shared.dataTask(with: request) { data, response, error in
@@ -192,5 +189,13 @@ public class CourseResource: Decodable, Identifiable, ObservableObject {
             }
         }.resume()
     }
+    
+}
+
+protocol ResourceModel: Identifiable {
+    
+    var id: String { get set }
+    var name: String { get set }
+    var size: Int64 { get set }
     
 }

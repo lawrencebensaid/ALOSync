@@ -9,11 +9,11 @@ import Foundation
 
 struct ALOStatus: Decodable {
     
-    static let preview = ALOStatus(message: "All clear", description: "Preview", orchestrator: .preview)
+    static let preview = ALOStatus(message: "All clear", summary: "Preview", orchestrator: .preview)
     
     private enum CodingKeys: CodingKey {
         case message
-        case description
+        case summary
         case version
         case clients
         case service
@@ -22,16 +22,16 @@ struct ALOStatus: Decodable {
     }
     
     var message: String
-    var description: String
+    var summary: String
     var version: String
     var clients: [String: String]
     var service: [String: String]
     var endpoints: [String]
     var orchestrator: ALOOrchestrator
     
-    private init(message: String, description: String, version: String = "0.0.1", clients: [String: String] = [:], service: [String: String] = [:], endpoints: [String] = [], orchestrator: ALOOrchestrator) {
+    private init(message: String, summary: String, version: String = "0.0.1", clients: [String: String] = [:], service: [String: String] = [:], endpoints: [String] = [], orchestrator: ALOOrchestrator) {
         self.message = message
-        self.description = description
+        self.summary = summary
         self.version = version
         self.clients = clients
         self.service = service
@@ -42,7 +42,7 @@ struct ALOStatus: Decodable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         message = try container.decode(String.self, forKey: .message)
-        description = try container.decode(String.self, forKey: .description)
+        summary = try container.decode(String.self, forKey: .summary)
         version = try container.decode(String.self, forKey: .version)
         clients = try container.decode([String: String].self, forKey: .clients)
         service = try container.decode([String: String].self, forKey: .service)

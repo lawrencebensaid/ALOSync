@@ -72,12 +72,12 @@ class ALO {
         return true
     }
     
-    public var isSignedIn: Bool {
-        if let token = UserDefaults.standard.string(forKey: "token") {
-            return token.count > 0
-        }
-        return false
-    }
+//    public var isSignedIn: Bool {
+//        if let token = UserDefaults.standard.string(forKey: "token") {
+//            return token.count > 0
+//        }
+//        return false
+//    }
     
     private init() { }
     

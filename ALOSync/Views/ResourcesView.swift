@@ -11,7 +11,7 @@ import CoreData
 struct ResourcesView: View {
     
 //    private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    private let commonResourceTypes: [CourseResource.`Type`] = [.folder, .file, .resource]
+    private let commonResourceTypes: [File.`Type`] = [.file, .resource]
     
     @Environment(\.managedObjectContext) private var context
     @EnvironmentObject private var appContext: AppContext
@@ -28,16 +28,15 @@ struct ResourcesView: View {
     @State private var search = ""
     @State private var query = ""
     
-    private var rotation: CGFloat = 0
+//    private var rotation: CGFloat = 0
     
-    @FetchRequest(
-        entity: Course.entity(),
-        sortDescriptors: [NSSortDescriptor(keyPath: \Course.code, ascending: true)]
-    ) var courses: FetchedResults<Course>
+    @FetchRequest<File>(
+        sortDescriptors: [NSSortDescriptor(keyPath: \File.name, ascending: true)]
+    ) var resources
     
     var body: some View {
         VStack(spacing: 0) {
-            if courses.count > 0 {
+            if resources.count > 0 {
                 Table(selection: $appContext.resourceSelection) {
                     TableColumn("Name") { resource in
                         ResourceItemView()
@@ -54,33 +53,41 @@ struct ResourcesView: View {
                             }
                     }
                     .width(min: 150, ideal: 500)
+                    TableColumn("Course") {
+                        Text($0.course?.code ?? "None")
+                            .foregroundColor(.secondary)
+                    }
                     TableColumn("Size") {
                         if let size = $0.size {
                             Text("\(size.bytesString())")
-                                .foregroundColor(Color(.secondaryLabelColor))
+                                .foregroundColor(.secondary)
                         }
                     }
                     .width(min: 35)
                     TableColumn("Kind") {
                         Text($0.subtype?.label ?? $0.type.rawValue.capitalized)
-                            .foregroundColor(Color(.secondaryLabelColor))
+                            .foregroundColor(.secondary)
                     }
                     .width(min: 45)
                 } rows: {
-                    ForEach(courses.filter { filterCourses ? $0.fileCount > 0 : true }, id: \.id) { course in
-                        TableRow(CourseResource(name: course.name, type: .course, course: course, depth: 0))
-                        let filtered = course.files.filter { query == "" || $0.name.lowercased().contains(query.lowercased()) }
-                        ForEach(filtered.filter { includeUncommonResources || commonResourceTypes.contains($0.type) }) { resource in
-                            TableRow(resource)
-                        }
+                    let filtered = resources.filter { query == "" || $0.name.lowercased().contains(query.lowercased()) }
+                    ForEach(filtered.filter { includeUncommonResources || commonResourceTypes.contains($0.type) }, id: \.id) { resource in
+                        TableRow(resource)
                     }
                 }
+                .tableStyle(InsetTableStyle())
             } else {
                 Button("Refresh") {
                     appContext.fetch(context) {
                         switch $0 {
                         case .failure(let error): appContext.errorMessage = error.localizedDescription; break
                         default: break
+                        }
+                        appContext.fetchResources(context) {
+                            switch $0 {
+                            case .failure(let error): appContext.errorMessage = error.localizedDescription; break
+                            default: break
+                            }
                         }
                     }
                 }
@@ -105,6 +112,12 @@ struct ResourcesView: View {
                 case .failure(let error): appContext.errorMessage = error.localizedDescription; break
                 default: break
                 }
+                appContext.fetchResources(context) {
+                    switch $0 {
+                    case .failure(let error): appContext.errorMessage = error.localizedDescription; break
+                    default: break
+                    }
+                }
             }
         }
 //        .onReceive(timer) { _ in
@@ -115,12 +128,11 @@ struct ResourcesView: View {
     
     var touchBarControls: some View {
         HStack {
-            let resources = courses.flatMap { $0.files }
             if let resource = resources.filter({ $0.id == appContext.resourceSelection }).first {
                 Button(action: {
                     resource.openDirectory()
                 }) {
-                    Image(systemName: "folder")
+                    Image(systemName: "folder.fill")
                         .padding(.horizontal)
                         .foregroundColor(Color(resource.isSynced() != true ? .disabledControlTextColor : .systemTeal))
                 }
@@ -128,7 +140,7 @@ struct ResourcesView: View {
                 Button(action: {
                     resource.open()
                 }) {
-                    Image(systemName: "arrow.up.doc")
+                    Image(systemName: "arrow.up.doc.fill")
                         .padding(.horizontal)
                         .foregroundColor(Color(.systemBlue))
                 }
@@ -143,7 +155,7 @@ struct ResourcesView: View {
                         }
                     }
                 }) {
-                    Image(systemName: "arrow.down.circle")
+                    Image(systemName: "arrow.down.circle.fill")
                         .padding(.horizontal)
                         .foregroundColor(Color(resource.isSynced() == true ? .disabledControlTextColor : .systemGreen))
                 }
@@ -151,7 +163,7 @@ struct ResourcesView: View {
                 Button(action: {
                     resource.offload()
                 }) {
-                    Image(systemName: "minus.circle")
+                    Image(systemName: "minus.circle.fill")
                         .padding(.horizontal)
                         .foregroundColor(Color(resource.isSynced() == false ? .disabledControlTextColor : .systemRed))
                 }
@@ -178,7 +190,7 @@ struct ResourcesView: View {
     
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct ResourcesView_Previews: PreviewProvider {
     static var previews: some View {
         ResourcesView()
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
