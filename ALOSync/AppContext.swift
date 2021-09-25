@@ -87,16 +87,14 @@ class AppContext: ObservableObject {
                 }
                 let decoder = JSONDecoder()
                 decoder.userInfo[.context] = context
-//                withAnimation {
-                    let results = (try? context.fetch(File.fetchRequest())) ?? []
-                    for result in results { context.delete(result) }
-                    if let courses = try? decoder.decode([File].self, from: data) {
-                        try? context.save()
-                        complete?(.success(courses))
-                        return
-                    }
-                    complete?(.failure(APIError("Something went wrong")))
-//                }
+                let results = (try? context.fetch(File.fetchRequest())) ?? []
+                for result in results { context.delete(result) }
+                if let courses = try? decoder.decode([File].self, from: data) {
+                    try? context.save()
+                    complete?(.success(courses))
+                    return
+                }
+                complete?(.failure(APIError("Something went wrong")))
             }
         }.resume()
     }

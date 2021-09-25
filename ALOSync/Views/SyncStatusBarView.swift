@@ -7,35 +7,19 @@
 
 import SwiftUI
 
-struct SyncStatusBarView: View {
+struct SyncStatusBarView<Content: View>: View {
     
-    @FetchRequest(entity: Course.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Course.code, ascending: true)]) var courses: FetchedResults<Course>
-    
-    @Binding private var loading: Bool
-    
-    init(loading: Binding<Bool>) {
-        _loading = loading
-    }
+    var content: () -> Content
     
     var body: some View {
-        let resources = courses.flatMap { $0.files }
         VStack(spacing: 0) {
             Rectangle()
                 .foregroundColor(Color("Divider2"))
                 .frame(maxWidth: .infinity, minHeight: 0.5, maxHeight: 0.5)
             Spacer(minLength: 0)
-            HStack(spacing: 16) {
-                if loading {
-                    ProgressView()
-                        .controlSize(.small)
-                }
-                Text("\(resources.filter({ $0.type == .file }).count) out of \(resources.count) files available for synchronization")
-                    .foregroundColor(.secondary)
-                    .font(.system(size: 11))
-            }
-            .frame(maxWidth: .infinity)
-            .offset(y: -1)
-            .help("Show resource availability")
+            content()
+                .frame(maxWidth: .infinity)
+                .offset(y: -1)
             Spacer(minLength: 0)
         }
         .background(BlurView())
@@ -46,6 +30,12 @@ struct SyncStatusBarView: View {
 
 struct SyncStatusBarView_Previews: PreviewProvider {
     static var previews: some View {
-        SyncStatusBarView(loading: .constant(true))
+        SyncStatusBarView {
+            HStack(spacing: 16) {
+                Text("3 out of 5 files available for synchronization")
+                    .foregroundColor(.secondary)
+                    .font(.system(size: 11))
+            }
+        }
     }
 }

@@ -84,7 +84,7 @@ struct AppSettingsView: View {
                 Section {
                     Toggle("Use TLS", isOn: .init { mirrorScheme == "1" } set: { mirrorScheme = $0 ? "1": "0" })
                         .help("If enabled, uses HTTP instead of HTTPS")
-                    TextField(ALO.default(.authority), text: $mirrorHost)
+                    TextField("", text: $mirrorHost)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .help("Server authority")
                     Button("Forget auth") {

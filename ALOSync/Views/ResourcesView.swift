@@ -16,8 +16,6 @@ struct ResourcesView: View {
     @Environment(\.managedObjectContext) private var context
     @EnvironmentObject private var appContext: AppContext
     
-    @AppStorage("token") private var token: String?
-    @AppStorage("syncPath") private var syncPath: String?
     @AppStorage("showMirror") private var showMirror = false
     @AppStorage("includeUncommonResources") private var includeUncommonResources = false
     @AppStorage("showFullPathInTooltip") private var showFullPathInTooltip = false
@@ -57,6 +55,7 @@ struct ResourcesView: View {
                         Text($0.course?.code ?? "None")
                             .foregroundColor(.secondary)
                     }
+                    .width(min: 100, max: 150)
                     TableColumn("Size") {
                         if let size = $0.size {
                             Text("\(size.bytesString())")
@@ -77,35 +76,47 @@ struct ResourcesView: View {
                 }
                 .tableStyle(InsetTableStyle())
             } else {
-                Button("Refresh") {
-                    appContext.fetch(context) {
-                        switch $0 {
-                        case .failure(let error): appContext.errorMessage = error.localizedDescription; break
-                        default: break
-                        }
-                        appContext.fetchResources(context) {
+                VStack {
+                    Text("No resources at this time")
+                        .font(.system(size: 24, weight: .semibold))
+                        .foregroundColor(.secondary)
+                    Button(action: {
+                        appContext.fetch(context) {
                             switch $0 {
                             case .failure(let error): appContext.errorMessage = error.localizedDescription; break
                             default: break
                             }
+                            appContext.fetchResources(context) {
+                                switch $0 {
+                                case .failure(let error): appContext.errorMessage = error.localizedDescription; break
+                                default: break
+                                }
+                            }
                         }
+                    }) {
+                        Label("Refresh", systemImage: "arrow.clockwise")
                     }
+                    .buttonStyle(.link)
+                    .disabled(appContext.updating)
                 }
-                .controlSize(.large)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-            SyncStatusBarView(loading: $appContext.updating)
+            SyncStatusBarView {
+                HStack(spacing: 16) {
+                    if appContext.updating {
+                        ProgressView()
+                            .controlSize(.small)
+                    }
+                    Text("\(resources.filter({ $0.type == .file }).count) out of \(resources.count) files available for synchronization")
+                        .foregroundColor(.secondary)
+                        .font(.system(size: 11))
+                }
+            }
+            .help("Resource availability")
         }
         .searchable(text: $search)
         .onSubmit(of: .search) { withAnimation { query = search } }
         .touchBar { touchBarControls }
-        .toolbar {
-            Toggle(isOn: .init { filterCourses } set: { x in withAnimation { filterCourses = x } }) {
-                Image(systemName: "graduationcap")
-            }
-            .help("Only show courses containing files/resources")
-            .keyboardShortcut("f", modifiers: [.command, .shift])
-        }
         .onAppear {
             appContext.fetch(context) {
                 switch $0 {

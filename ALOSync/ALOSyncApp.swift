@@ -49,7 +49,7 @@ struct ALOSyncApp: App {
                 }
                 .frame(minWidth: 550, minHeight: 250)
                 .toolbar {
-                    ToolbarItem {
+                    ToolbarItem(placement: .principal) {
                         Picker("Content", selection: $content) {
                             Text("Resources").tag(0)
                             Text("Courses").tag(1)
