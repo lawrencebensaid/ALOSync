@@ -16,7 +16,7 @@ class AppContext: ObservableObject {
     @Published public var showLogin = false
     @Published public var errorMessage: String?
     @Published public var resourceSelection: String?
-    @Published public var viewMode: ViewMode = .list
+    @Published public var viewMode: ViewMode = .table
     
     // Developer mode
     @Published public var presentMirror = false // Causes memory leak, maybe a SwiftUI bug?

@@ -63,6 +63,7 @@ struct ResourceGridItemView: View {
                     .help(resource.name)
             }
             .font(.system(size: 12))
+            .animation(.none)
             Spacer(minLength: 0)
         }
         .frame(width: 100, height: 90)

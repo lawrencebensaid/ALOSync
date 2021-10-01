@@ -32,6 +32,7 @@ struct ResourcesGridView: View {
                     ResourceGridItemView()
                         .environmentObject(appContext)
                         .environmentObject(resource)
+                        .animation(.spring())
                 }
             }
             .padding(.vertical)

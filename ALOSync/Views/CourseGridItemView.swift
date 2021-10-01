@@ -23,22 +23,24 @@ struct CourseGridItemView: View {
         VStack {
             ZStack(alignment: .topTrailing) {
                 if #available(macOS 12.0, *) {
-                    AsyncImage(url: URL(string: "\(ALO.standard.base)/course/\(course.code)/thumbnail")!) { image in
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 120, height: 80)
-                            .cornerRadius(8)
-                            .shadow(radius: 2)
-                    } placeholder: {
-                        BlurView()
-                            .frame(width: 120, height: 80)
-                            .cornerRadius(8)
+                    AsyncImage(url: URL(string: "\(ALO.standard.base)/course/\(course.code)/thumbnail")!) {
+                        switch $0 {
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 120, height: 80)
+                                .cornerRadius(8)
+                                .shadow(radius: 4)
+                        default:
+                            BlurView()
+                                .frame(width: 120, height: 80)
+                                .cornerRadius(8)
+                        }
                     }
                 } else {
                     CourseThumbnailView()
                         .environmentObject(course)
-                        .frame(width: 30)
                 }
                 Button(action: {
                     presentIndexingInfo.toggle()

@@ -22,6 +22,7 @@ struct CoursesGridView: View {
                 ForEach(filtered, id: \.id) { resource in
                     CourseGridItemView()
                         .environmentObject(resource)
+                        .animation(.spring())
                 }
             }
             .padding(.vertical)

@@ -39,14 +39,15 @@ struct ALOSyncApp: App {
                         CoursesView()
                             .environment(\.managedObjectContext, viewContext)
                             .environmentObject(appContext)
-                            .navigationTitle("Courses")
+                            .navigationSubtitle("Courses")
                     } else {
                         ResourcesView()
                             .environment(\.managedObjectContext, viewContext)
                             .environmentObject(appContext)
-                            .navigationTitle("Resources")
+                            .navigationSubtitle("Resources")
                     }
                 }
+                .navigationTitle("ALO Sync")
                 .frame(minWidth: 550, minHeight: 250)
                 .toolbar {
                     ToolbarItem(placement: .navigation) {
@@ -71,6 +72,15 @@ struct ALOSyncApp: App {
                             Text("Courses").tag(1)
                         }
                         .pickerStyle(.segmented)
+                    }
+                    ToolbarItem(placement: .principal) {
+                        if #available(macOS 12, *) {
+                            Picker("View mode", selection: $appContext.viewMode) {
+                                Image(systemName: "square.grid.2x2").tag(ViewMode.grid)
+                                Image(systemName: "list.bullet").tag(ViewMode.table)
+                            }
+                            .pickerStyle(.segmented)
+                        }
                     }
                 }
                 .alert(isPresented: .init { appContext.errorMessage != nil } set: { _ in appContext.errorMessage = nil }) {

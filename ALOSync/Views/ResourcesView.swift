@@ -22,7 +22,7 @@ struct ResourcesView: View {
     var body: some View {
         VStack(spacing: 0) {
             if resources.count > 0 {
-                if #available(macOS 12, *), appContext.viewMode == .list {
+                if #available(macOS 12, *), appContext.viewMode == .table {
                     ResourcesListView()
                         .environmentObject(appContext)
                 } else {
@@ -69,15 +69,6 @@ struct ResourcesView: View {
             .help("Resource availability")
         }
         .touchBar { touchBarControls }
-        .toolbar {
-            if #available(macOS 12, *) {
-                Picker("View mode", selection: .init { appContext.viewMode } set: { mode in withAnimation { appContext.viewMode = mode } }) {
-                    Image(systemName: "square.grid.2x2").tag(ViewMode.grid)
-                    Image(systemName: "list.bullet").tag(ViewMode.list)
-                }
-                .pickerStyle(.segmented)
-            }
-        }
         .onAppear {
             appContext.fetch(context) {
                 switch $0 {

@@ -20,7 +20,7 @@ struct CoursesView: View {
     var body: some View {
         VStack(spacing: 0) {
             if courses.count > 0 {
-                if #available(macOS 12, *), appContext.viewMode == .list {
+                if #available(macOS 12, *), appContext.viewMode == .table {
                     CoursesListView()
                         .environmentObject(appContext)
                 } else {
@@ -59,15 +59,6 @@ struct CoursesView: View {
                 }
             }
             .help("Course availability")
-        }
-        .toolbar {
-            if #available(macOS 12, *) {
-                Picker("View mode", selection: .init { appContext.viewMode } set: { mode in withAnimation { appContext.viewMode = mode } }) {
-                    Image(systemName: "square.grid.2x2").tag(ViewMode.grid)
-                    Image(systemName: "list.bullet").tag(ViewMode.list)
-                }
-                .pickerStyle(.segmented)
-            }
         }
         .onAppear {
             appContext.fetch(context) {

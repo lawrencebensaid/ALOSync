@@ -19,18 +19,13 @@ struct CourseThumbnailView: View {
                 thumbnail
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: 30, height: 20)
-                    .cornerRadius(4)
-                    .shadow(radius: 2)
-            } else if loading {
-                HStack {
-                    Spacer()
-                    ProgressView()
-                        .controlSize(.small)
-                    Spacer()
-                }
+                    .frame(width: 120, height: 80)
+                    .cornerRadius(8)
+                    .shadow(radius: 4)
             } else {
-                EmptyView()
+                BlurView()
+                    .frame(width: 120, height: 80)
+                    .cornerRadius(8)
             }
         }
         .onAppear {
