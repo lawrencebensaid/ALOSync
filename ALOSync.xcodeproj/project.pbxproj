@@ -624,7 +624,7 @@
 				CODE_SIGN_ENTITLEMENTS = ALOSync/ALOSync.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"ALOSync/Preview Content\"";
 				DEVELOPMENT_TEAM = 8L633NHUVC;
 				ENABLE_APP_SANDBOX = YES;
@@ -641,7 +641,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = "1.0.0-beta.2";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lawrencebensaid.ALOSync;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -657,7 +657,7 @@
 				CODE_SIGN_ENTITLEMENTS = ALOSync/ALOSync.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"ALOSync/Preview Content\"";
 				DEVELOPMENT_TEAM = 8L633NHUVC;
 				ENABLE_APP_SANDBOX = YES;
@@ -674,7 +674,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = "1.0.0-beta.2";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lawrencebensaid.ALOSync;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
