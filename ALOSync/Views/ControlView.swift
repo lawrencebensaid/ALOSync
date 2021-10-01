@@ -19,9 +19,9 @@ struct ControlView: View {
             } else {
                 List {
                     Button("Sign out") { token = nil }
-                        .buttonStyle(PlainButtonStyle())
+                        .buttonStyle(.plain)
                 }
-                .listStyle(PlainListStyle())
+                .listStyle(.plain)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)

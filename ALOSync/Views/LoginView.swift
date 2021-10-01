@@ -17,7 +17,6 @@ struct LoginView: View {
     @State private var presentHelp = false
     @State private var loading = false
     
-    @available(macOS 11.0, *)
     var body: some View {
         VStack {
             Spacer()
@@ -34,32 +33,47 @@ struct LoginView: View {
                 .controlSize(.large)
             } else {
                 TextField("Username", text: $username)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .textFieldStyle(.roundedBorder)
                     .controlSize(.large)
                     .textContentType(.username)
                     .help("Student ID or E-mail")
                     .disabled(loading)
                     .frame(maxWidth: 350)
                 SecureField("Password", text: $password)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .textFieldStyle(.roundedBorder)
                     .controlSize(.large)
                     .textContentType(.password)
                     .disabled(loading)
                     .frame(maxWidth: 350)
                 ZStack {
-                    Button(action: { signIn() }) {
-                        if loading {
-                            ProgressView()
-                                .controlSize(.small)
-                                .padding(.horizontal)
-                        } else {
-                            Text("Sign in")
+                    if #available(macOS 12, *) {
+                        Button(action: { signIn() }) {
+                            if loading {
+                                ProgressView()
+                                    .controlSize(.small)
+                                    .padding(.horizontal)
+                            } else {
+                                Text("Sign in")
+                            }
                         }
+                        .disabled(loading)
+                        .buttonStyle(.borderedProminent)
+                        .controlSize(.large)
+                        .padding(.top, 16)
+                    } else {
+                        Button(action: { signIn() }) {
+                            if loading {
+                                ProgressView()
+                                    .controlSize(.small)
+                                    .padding(.horizontal)
+                            } else {
+                                Text("Sign in")
+                            }
+                        }
+                        .disabled(loading)
+                        .controlSize(.large)
+                        .padding(.top, 16)
                     }
-                    .disabled(loading)
-                    .buttonStyle(.borderedProminent)
-                    .controlSize(.large)
-                    .padding(.top, 16)
                     VStack {
                         Spacer()
                         HStack {

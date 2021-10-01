@@ -25,10 +25,44 @@ struct AppSettingsView: View {
     
     @State private var presentForget = false
     @State private var presentErase = false
+    @State private var lookingForUpdate = false
     @State private var tab = 0
+    @State private var appUpdate: Release?
     
     var body: some View {
         TabView(selection: $tab) {
+            Form {
+                Section {
+                    HStack {
+                        if let update = appUpdate {
+                            Text(update.name)
+                        } else if lookingForUpdate {
+                            ProgressView()
+                        } else {
+                            Text("No update available")
+                        }
+                        Spacer()
+                    }
+                    .padding()
+                } header: {
+                    Text("Latest update")
+                        .font(.headline)
+                }
+                .onAppear {
+                    Release.fetch {
+                        switch $0 {
+                        case .success(let releases): appUpdate = releases.first; break
+                        default: break
+                        }
+                    }
+                }
+            }
+            .padding()
+            .tag(0)
+            .tabItem {
+                Image(systemName: "app.badge.fill")
+                Text("Updates")
+            }
             Form {
                 Section {
                     Toggle("Include uncommon resources", isOn: $includeUncommonResources)
@@ -55,7 +89,7 @@ struct AppSettingsView: View {
                             Image(systemName: "arrow.right.circle.fill")
                                 .foregroundColor(.secondary)
                         }
-                        .buttonStyle(PlainButtonStyle())
+                        .buttonStyle(.plain)
                         .controlSize(.small)
                         .disabled(syncPath == nil)
                         .help("Reveal in finder")
@@ -75,7 +109,7 @@ struct AppSettingsView: View {
                 }
             }
             .padding()
-            .tag(0)
+            .tag(1)
             .tabItem {
                 Image(systemName: "slider.horizontal.below.rectangle")
                 Text("General")
@@ -85,7 +119,7 @@ struct AppSettingsView: View {
                     Toggle("Use TLS", isOn: .init { mirrorScheme == "1" } set: { mirrorScheme = $0 ? "1": "0" })
                         .help("If enabled, uses HTTP instead of HTTPS")
                     TextField("", text: $mirrorHost)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .textFieldStyle(.roundedBorder)
                         .help("Server authority")
                     Button("Forget auth") {
                         presentForget = true
@@ -152,13 +186,13 @@ struct AppSettingsView: View {
                 .padding(.top)
             }
             .padding()
-            .tag(1)
+            .tag(2)
             .tabItem {
                 Image(systemName: "gear")
                 Text("Advanced")
             }
         }
-        .frame(width: 400, height: tab == 1 ? 300 : 200)
+        .frame(width: 400, height: tab == 2 ? 350 : 200)
     }
     
 }

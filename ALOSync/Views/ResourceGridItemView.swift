@@ -1,15 +1,14 @@
 //
-//  ResourceItemView.swift
-//  ResourceItemView
+//  ResourceGridItemView.swift
+//  ResourceGridItemView
 //
-//  Created by Lawrence Bensaid on 13/09/2021.
+//  Created by Lawrence Bensaid on 01/10/2021.
 //
 
 import SwiftUI
 
-struct ResourceItemView: View {
-    
-    private let indentation = 12
+struct ResourceGridItemView: View {
+
     private let timer = Timer.publish(every: 2, on: .main, in: .common).autoconnect()
     
     @Environment(\.managedObjectContext) private var viewContext
@@ -22,54 +21,51 @@ struct ResourceItemView: View {
     @State private var loading = false
     
     var body: some View {
-        HStack(spacing: 4) {
-            if resource.type == .course || resource.type == .folder {
-                Button(action: {
-                    
-                }) {
-                    Image(systemName: "chevron.down")
-                        .foregroundColor(Color(.labelColor))
-                        .font(.system(size: 10, weight: .bold))
+        VStack {
+            ZStack {
+                Image("GenericDocumentIcon")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(height: 50)
+                if let subtype = resource.subtype {
+                    Text(subtype.rawValue)
+                        .font(.system(size: 14, weight: .bold))
+                        .foregroundColor(.gray.opacity(0.7))
                 }
-                .buttonStyle(.plain)
-                .disabled(true)
-                .frame(width: 12)
-            } else {
-                Spacer()
-                    .frame(width: 12)
             }
-            Image(systemName: resource.type.systemImage)
-                .foregroundColor(.accentColor)
-            Text(resource.name)
-            Spacer()
-            if loading {
-                ProgressView()
-                    .controlSize(.small)
-                    .help("Downloading...")
-            } else if synced {
-                Image(systemName: "circle.fill")
-                    .foregroundColor(.secondary)
-                    .help("Downloaded")
-            } else if !resource.isSynced(at: syncPath) {
-                Button(action: {
-                    loading = true
-                    resource.sync {
-                        if appContext.fsPermissionsHandler($0, { resource.sync() }) { return }
-                        switch $0 {
-                        case .failure(let error): appContext.errorMessage = error.localizedDescription
-                        default: break
+            HStack(alignment: .top, spacing: 2) {
+                if loading {
+                    ProgressView()
+                        .controlSize(.small)
+                        .help("Downloading...")
+                } else if synced {
+                    Image(systemName: "circle.fill")
+                        .foregroundColor(.secondary)
+                        .help("Downloaded")
+                } else if !resource.isSynced(at: syncPath) {
+                    Button(action: {
+                        loading = true
+                        resource.sync {
+                            if appContext.fsPermissionsHandler($0, { resource.sync() }) { return }
+                            switch $0 {
+                            case .failure(let error): appContext.errorMessage = error.localizedDescription
+                            default: break
+                            }
                         }
+                    }) {
+                        Image(systemName: "arrow.down.circle")
                     }
-                }) {
-                    Image(systemName: "arrow.down.circle")
+                    .buttonStyle(.plain)
+                    .foregroundColor(.secondary)
+                    .help("Download")
                 }
-                .buttonStyle(.plain)
-                .foregroundColor(.secondary)
-                .help("Download")
+                Text(resource.name)
+                    .help(resource.name)
             }
+            .font(.system(size: 12))
+            Spacer(minLength: 0)
         }
-        .padding(.leading, CGFloat(indentation * resource.depth))
-        .padding(.vertical, 4)
+        .frame(width: 100, height: 90)
         .onReceive(timer) { _ in
             if let syncPath = syncPath {
                 synced = resource.isSynced(at: syncPath)
@@ -116,8 +112,8 @@ struct ResourceItemView: View {
     
 }
 
-struct ResourceItemView_Previews: PreviewProvider {
+struct ResourceGridItemView_Previews: PreviewProvider {
     static var previews: some View {
-        ResourceItemView()
+        ResourceGridItemView()
     }
 }

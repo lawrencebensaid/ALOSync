@@ -35,7 +35,7 @@ struct ALOSyncApp: App {
         WindowGroup {
             if token != nil {
                 HStack {
-                    if content == 1 {
+                    if #available(macOS 12, *), content == 1 {
                         CoursesView()
                             .environment(\.managedObjectContext, viewContext)
                             .environmentObject(appContext)
@@ -49,26 +49,7 @@ struct ALOSyncApp: App {
                 }
                 .frame(minWidth: 550, minHeight: 250)
                 .toolbar {
-                    ToolbarItem(placement: .principal) {
-                        Picker("Content", selection: $content) {
-                            Text("Resources").tag(0)
-                            Text("Courses").tag(1)
-                        }
-                        .pickerStyle(SegmentedPickerStyle())
-                        Button(action: {
-                            // appContext.presentMirror.toggle() // Temprarily disabled
-                            presentMirror.toggle()
-                        }) {
-                            Image(systemName: "externaldrive.connected.to.line.below")
-                        }
-                        .help("Show mirror server status")
-                        .keyboardShortcut("s", modifiers: [.control, .option])
-                        .popover(isPresented: $presentMirror) {
-                            StatusView()
-                                .environmentObject(appContext)
-                        }
-                    }
-                    ToolbarItem(placement: .status) {
+                    ToolbarItem(placement: .navigation) {
                         if showMirror {
                             Button(action: {
                                 // appContext.presentMirror.toggle() // Temprarily disabled
@@ -84,6 +65,13 @@ struct ALOSyncApp: App {
                             }
                         }
                     }
+                    ToolbarItem(placement: .principal) {
+                        Picker("Content", selection: $content) {
+                            Text("Resources").tag(0)
+                            Text("Courses").tag(1)
+                        }
+                        .pickerStyle(.segmented)
+                    }
                 }
                 .alert(isPresented: .init { appContext.errorMessage != nil } set: { _ in appContext.errorMessage = nil }) {
                     Alert(title: Text(appContext.errorMessage ?? ""))
@@ -92,7 +80,7 @@ struct ALOSyncApp: App {
                 LoginView()
                     .environmentObject(appContext)
                     .frame(width: 450, height: 250)
-                    .presentedWindowStyle(HiddenTitleBarWindowStyle())
+                    .presentedWindowStyle(.hiddenTitleBar)
                     .navigationTitle("Sign in")
             }
         }

@@ -1,13 +1,13 @@
 //
-//  CourseItemView.swift
-//  CourseItemView
+//  CourseListItemView.swift
+//  CourseListItemView
 //
 //  Created by Lawrence Bensaid on 25/09/2021.
 //
 
 import SwiftUI
 
-struct CourseItemView: View {
+struct CourseListItemView: View {
     
     private let indentation = 12
     
@@ -22,9 +22,24 @@ struct CourseItemView: View {
     
     var body: some View {
         HStack(spacing: 4) {
-            CourseThumbnailView()
-                .environmentObject(course)
-                .frame(width: 30)
+            if #available(macOS 12.0, *) {
+                AsyncImage(url: URL(string: "\(ALO.standard.base)/course/\(course.code)/thumbnail")!) { image in
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 30, height: 20)
+                        .cornerRadius(4)
+                        .shadow(radius: 2)
+                } placeholder: {
+                    BlurView()
+                        .frame(width: 30, height: 20)
+                        .cornerRadius(4)
+                }
+            } else {
+                CourseThumbnailView()
+                    .environmentObject(course)
+                    .frame(width: 30)
+            }
             if false {
                 Button(action: {
                     
@@ -33,7 +48,7 @@ struct CourseItemView: View {
                         .foregroundColor(Color(.labelColor))
                         .font(.system(size: 10, weight: .bold))
                 }
-                .buttonStyle(PlainButtonStyle())
+                .buttonStyle(.plain)
                 .disabled(true)
                 .frame(width: 12)
             } else {
@@ -47,7 +62,7 @@ struct CourseItemView: View {
                     .controlSize(.small)
             } else if course.canUpdate {
                 Text("Reindexing available")
-                    .foregroundColor(Color(.secondaryLabelColor))
+                    .foregroundColor(.secondary)
             }
         }
         .padding(.vertical, 4)
@@ -64,6 +79,6 @@ struct CourseItemView: View {
 
 struct CourseItemView_Previews: PreviewProvider {
     static var previews: some View {
-        CourseItemView()
+        CourseListItemView()
     }
 }

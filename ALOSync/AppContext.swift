@@ -11,10 +11,12 @@ import SwiftUI
 
 class AppContext: ObservableObject {
     
+    // View context
     @Published public var updating = false
     @Published public var showLogin = false
     @Published public var errorMessage: String?
     @Published public var resourceSelection: String?
+    @Published public var viewMode: ViewMode = .list
     
     // Developer mode
     @Published public var presentMirror = false // Causes memory leak, maybe a SwiftUI bug?

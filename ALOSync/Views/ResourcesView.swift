@@ -10,23 +10,10 @@ import CoreData
 
 struct ResourcesView: View {
     
-//    private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    private let commonResourceTypes: [File.`Type`] = [.file, .resource]
-    
     @Environment(\.managedObjectContext) private var context
     @EnvironmentObject private var appContext: AppContext
     
     @AppStorage("showMirror") private var showMirror = false
-    @AppStorage("includeUncommonResources") private var includeUncommonResources = false
-    @AppStorage("showFullPathInTooltip") private var showFullPathInTooltip = false
-    
-    @State private var isUpdated = false
-    @State private var presentStatus = false
-    @State private var filterCourses = true
-    @State private var search = ""
-    @State private var query = ""
-    
-//    private var rotation: CGFloat = 0
     
     @FetchRequest<File>(
         sortDescriptors: [NSSortDescriptor(keyPath: \File.name, ascending: true)]
@@ -35,46 +22,13 @@ struct ResourcesView: View {
     var body: some View {
         VStack(spacing: 0) {
             if resources.count > 0 {
-                Table(selection: $appContext.resourceSelection) {
-                    TableColumn("Name") { resource in
-                        ResourceItemView()
-                            .environmentObject(resource)
-                            .environmentObject(appContext)
-                            .frame(height: 30)
-                            .help(resource.getPath(withSync: showFullPathInTooltip))
-                            .onDrag {
-                                let fallback = NSItemProvider(object: String(resource.name) as NSString)
-                                guard resource.isSynced() == true else { return fallback }
-                                let url = URL(fileURLWithPath: resource.getPath(withSync: true))
-                                guard let provider = NSItemProvider(contentsOf: url) else { return fallback }
-                                return provider
-                            }
-                    }
-                    .width(min: 150, ideal: 500)
-                    TableColumn("Course") {
-                        Text($0.course?.code ?? "None")
-                            .foregroundColor(.secondary)
-                    }
-                    .width(min: 100, max: 150)
-                    TableColumn("Size") {
-                        if let size = $0.size {
-                            Text("\(size.bytesString())")
-                                .foregroundColor(.secondary)
-                        }
-                    }
-                    .width(min: 35)
-                    TableColumn("Kind") {
-                        Text($0.subtype?.label ?? $0.type.rawValue.capitalized)
-                            .foregroundColor(.secondary)
-                    }
-                    .width(min: 45)
-                } rows: {
-                    let filtered = resources.filter { query == "" || $0.name.lowercased().contains(query.lowercased()) }
-                    ForEach(filtered.filter { includeUncommonResources || commonResourceTypes.contains($0.type) }, id: \.id) { resource in
-                        TableRow(resource)
-                    }
+                if #available(macOS 12, *), appContext.viewMode == .list {
+                    ResourcesListView()
+                        .environmentObject(appContext)
+                } else {
+                    ResourcesGridView()
+                        .environmentObject(appContext)
                 }
-                .tableStyle(InsetTableStyle())
             } else {
                 VStack {
                     Text("No resources at this time")
@@ -114,9 +68,16 @@ struct ResourcesView: View {
             }
             .help("Resource availability")
         }
-        .searchable(text: $search)
-        .onSubmit(of: .search) { withAnimation { query = search } }
         .touchBar { touchBarControls }
+        .toolbar {
+            if #available(macOS 12, *) {
+                Picker("View mode", selection: .init { appContext.viewMode } set: { mode in withAnimation { appContext.viewMode = mode } }) {
+                    Image(systemName: "square.grid.2x2").tag(ViewMode.grid)
+                    Image(systemName: "list.bullet").tag(ViewMode.list)
+                }
+                .pickerStyle(.segmented)
+            }
+        }
         .onAppear {
             appContext.fetch(context) {
                 switch $0 {
@@ -131,10 +92,6 @@ struct ResourcesView: View {
                 }
             }
         }
-//        .onReceive(timer) { _ in
-//            guard let image = AppDelegate.shared.statusBarItem?.button?.image else { return }
-//            AppDelegate.shared.statusBarItem?.button?.image = image.rotated(by: 90)
-//        }
     }
     
     var touchBarControls: some View {
@@ -182,7 +139,7 @@ struct ResourcesView: View {
                 if showMirror {
                     Divider()
                     Button(action: {
-                         appContext.presentMirror.toggle()
+                        appContext.presentMirror.toggle()
                     }) {
                         Image(systemName: "externaldrive.connected.to.line.below")
                             .padding(.horizontal)
@@ -193,11 +150,11 @@ struct ResourcesView: View {
         }
     }
     
-//    private func update(_ systemName: String) {
-//        DispatchQueue.main.async {
-//            AppDelegate.shared.statusBarItem?.button?.image = NSImage(systemSymbolName: systemName, accessibilityDescription: "Active")
-//        }
-//    }
+    //    private func update(_ systemName: String) {
+    //        DispatchQueue.main.async {
+    //            AppDelegate.shared.statusBarItem?.button?.image = NSImage(systemSymbolName: systemName, accessibilityDescription: "Active")
+    //        }
+    //    }
     
 }
 

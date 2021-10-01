@@ -13,11 +13,6 @@ struct CoursesView: View {
     @Environment(\.managedObjectContext) private var context
     @EnvironmentObject private var appContext: AppContext
     
-    @State private var search = ""
-    @State private var query = ""
-    
-    private var rotation: CGFloat = 0
-    
     @FetchRequest<Course>(
         sortDescriptors: [NSSortDescriptor(keyPath: \Course.code, ascending: true)]
     ) var courses
@@ -25,38 +20,13 @@ struct CoursesView: View {
     var body: some View {
         VStack(spacing: 0) {
             if courses.count > 0 {
-                Table(selection: $appContext.resourceSelection) {
-                    TableColumn("Name") {
-                        CourseItemView()
-                            .environmentObject($0)
-                            .environmentObject(appContext)
-                            .frame(height: 30)
-                            .help($0.summary ?? "")
-                    }
-                    .width(min: 150, ideal: 500)
-                    TableColumn("Code") {
-                        Text($0.code)
-                            .foregroundColor(.secondary)
-                    }
-                    .width(min: 100, max: 150)
-                    TableColumn("Points") {
-                        Text("\($0.points) ECs")
-                            .foregroundColor(.secondary)
-                    }
-                    .width(50)
-                    TableColumn("Resources") {
-                        Text("\($0.fileCount)")
-                            .foregroundColor(.secondary)
-                            .help("\($0.fileCount) resources available for sync")
-                    }
-                    .width(70)
-                } rows: {
-                    let filtered = courses.filter { query == "" || $0.name.lowercased().contains(query.lowercased()) }
-                    ForEach(filtered, id: \.id) { course in
-                        TableRow(course)
-                    }
+                if #available(macOS 12, *), appContext.viewMode == .list {
+                    CoursesListView()
+                        .environmentObject(appContext)
+                } else {
+                    CoursesGridView()
+                        .environmentObject(appContext)
                 }
-                .tableStyle(InsetTableStyle())
             } else {
                 VStack {
                     Text("No courses at this time")
@@ -90,12 +60,15 @@ struct CoursesView: View {
             }
             .help("Course availability")
         }
-        .searchable(text: $search) {
-            List(courses.filter { $0.name.starts(with: search) }) {
-                Text($0.name)
+        .toolbar {
+            if #available(macOS 12, *) {
+                Picker("View mode", selection: .init { appContext.viewMode } set: { mode in withAnimation { appContext.viewMode = mode } }) {
+                    Image(systemName: "square.grid.2x2").tag(ViewMode.grid)
+                    Image(systemName: "list.bullet").tag(ViewMode.list)
+                }
+                .pickerStyle(.segmented)
             }
         }
-        .onSubmit(of: .search) { withAnimation { query = search } }
         .onAppear {
             appContext.fetch(context) {
                 switch $0 {

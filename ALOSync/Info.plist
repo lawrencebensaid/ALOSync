@@ -4,7 +4,5 @@
 <dict>
 	<key>LSUIElement</key>
 	<false/>
-	<key>NSDocumentsFolderUsageDescription</key>
-	<string>Sync documents</string>
 </dict>
 </plist>
